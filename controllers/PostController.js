@@ -27,7 +27,7 @@ const PostController = {
     },
     async update(req, res) {
         try {
-            const post = await Post.findByIdAndUpdate(req.params._id, req.body, { new: true })
+            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename }, { new: true })
             res.send({ message: `post with id ${req.params._id} successfully updated`, post });
         } catch (error) {
             console.error(error);

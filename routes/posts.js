@@ -6,6 +6,6 @@ const upload = require('../middlewares/addMulter');
 router.post('/', upload.single('upload'), PostController.create)
 router.get('/', PostController.getAll)
 router.get('/id/:_id', PostController.getById)
-router.put('/id/:_id', PostController.update)
+router.put('/id/:_id', upload.single('upload'), PostController.update)
 router.delete('/id/:_id', PostController.delete)
 module.exports = router;
