@@ -24,6 +24,23 @@ const PostController = {
         } catch (error) {
             console.error(error);
         }
-    }
+    },
+    async update(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(req.params._id, req.body, { new: true })
+            res.send({ message: `post with id ${req.params._id} successfully updated`, post });
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    async delete(req, res) {
+        try {
+            const post = await Post.findByIdAndDelete(req.params._id)
+            res.send({ post, message: `Post with id ${req.params._id} deleted` })
+        } catch (error) {
+            console.error(error)
+            res.status(500).send({ message: 'there was a problem trying to remove the post' })
+        }
+    },
 }
 module.exports = PostController;
