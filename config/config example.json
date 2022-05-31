@@ -1,0 +1,10 @@
+{
+    "development": {
+        "jwt_secret": "your secret",
+        "auth": {
+            "user": "your email",
+            "pass": "your pass"
+        }
+    }
+
+}
