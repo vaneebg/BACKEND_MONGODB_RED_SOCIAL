@@ -57,11 +57,23 @@ const UserController = {
         try {
             const payload = jwt.verify(req.params.token, jwt_secret)
             await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
-                // await User.findOneAndUpdate({ email: payload.email }, { confirmed: true })
             res.status(201).send(`Te has verificado correctamente`)
         } catch (error) {
             res.status(404).send(`Enlace roto :(`)
         }
-    }
+    },
+    async logout(req, res) {
+        try {
+            await User.findByIdAndUpdate(req.user._id, {
+                $pull: { tokens: req.headers.authorization },
+            });
+            res.send({ message: "Desconectado con éxito" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({
+                message: "Hubo un problema al intentar conectar al usuario",
+            });
+        }
+    },
 };
 module.exports = UserController;

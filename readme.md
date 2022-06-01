@@ -1,8 +1,8 @@
 1.1.Endpoints
   Posts
-[/] Endpoint para crear un post( tiene que estar autenticado)
-[/] Endpoint para actualizar un post ( tiene que estar autenticado)
-[/] Endpoint para eliminar un post( tiene que estar autenticado)
+[X] Endpoint para crear un post( tiene que estar autenticado)
+[X] Endpoint para actualizar un post ( tiene que estar autenticado)
+[X] Endpoint para eliminar un post( tiene que estar autenticado)
 [ ] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
 [ ] Endpoint para buscar post por nombre
 [X] Endpoint para buscar post por id
@@ -16,14 +16,14 @@ Paginación de 10 en 10
 Endpoint para crear un comentario en un determinado post
 
  Usuarios
-[ ] Endpoint para registrar un usuario utilizando bcrypt
-[ ] Implementa el correo de confirmación para el registro
-[ ] Endpoint para login(utilizando bcrypt +JWT)
-[ ] Validación en el login:
+[X] Endpoint para registrar un usuario utilizando bcrypt
+[X] Implementa el correo de confirmación para el registro
+[X] Endpoint para login(utilizando bcrypt +JWT)
+[X] Validación en el login:
 Si no has confirmado tu correo no puedes conectarte
 [ ] Endpoint que nos traiga la información del usuario conectado
 [ ] Endpoint para el logout
-[ ] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
+[/] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
 
 [ ] Backend disponible en producción (Heroku).
 
