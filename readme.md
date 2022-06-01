@@ -12,7 +12,7 @@
 [ ] Endpoint para dar un like a un post
 [ ] Endpoint para quitar like a un post
 
-[ ]  Comments
+[X]  Comments
 Endpoint para crear un comentario en un determinado post
 
  Usuarios

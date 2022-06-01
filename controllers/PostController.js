@@ -19,6 +19,7 @@ const PostController = {
             res.send(posts)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async getById(req, res) {
@@ -27,6 +28,7 @@ const PostController = {
             res.send(post)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async update(req, res) {
@@ -36,6 +38,7 @@ const PostController = {
             res.send({ message: `post with id ${req.params._id} successfully updated`, post });
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async delete(req, res) {

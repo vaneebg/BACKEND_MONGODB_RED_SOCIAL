@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { jwt_secret } = require('../config/keys.js')
 const transporter = require('../config/nodemailer');
+const colors = require('colors');
 
 
 const UserController = {
@@ -23,7 +24,7 @@ const UserController = {
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-            console.error(error);
+            console.log.colors.red.underline.bgBrightBlue(error);
         }
     },
     async login(req, res) {
@@ -31,13 +32,12 @@ const UserController = {
             const user = await User.findOne({
                 email: req.body.email,
             })
-            console.log(user)
             if (!user) {
-                return res.send('Email/c')
+                return res.send('Email/contraseña incorrectos')
             }
             const isMatch = bcrypt.compareSync(req.body.password, user.password);
             if (!isMatch) {
-                return res.send('l/contraseña incorrectos')
+                return res.send('Email/contraseña incorrectos')
             }
             if (!user.confirmed) {
                 return res.status(400).send('No has verificado el usuario, revisa tu correo.')
@@ -58,6 +58,7 @@ const UserController = {
             res.send(users)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async getUserandPost(req, res) {
@@ -66,6 +67,7 @@ const UserController = {
             res.send(users)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async getAll(req, res) {
@@ -74,6 +76,7 @@ const UserController = {
             res.send(users)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
     async getAllLogin(req, res) {
@@ -82,6 +85,7 @@ const UserController = {
             res.send(users)
         } catch (error) {
             console.error(error);
+            res.send(error)
         }
     },
 
@@ -91,6 +95,7 @@ const UserController = {
             await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
             res.status(201).send(`Te has verificado correctamente`)
         } catch (error) {
+            console.error(error)
             res.status(404).send(`Enlace roto :(`)
         }
     },
