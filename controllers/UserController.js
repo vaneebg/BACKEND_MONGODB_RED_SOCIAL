@@ -1,13 +1,18 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { jwt_secret } = require('../config/keys.js')
+const transporter = require('../config/nodemailer');
 
 
 const UserController = {
     async register(req, res) {
         try {
-            const user = await User.create({...req.body, role: "user" });
-            res.status(201).send({ message: "Usuario registrado con exito", user });
+            const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+            const user = await User.create({...req.body, role: "user", password: hashedPassword });
+            const emailToken = await jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
+
+            res.status(201).send({ message: "Usuario registrado con éxito, entra en tu email para confirmarlo", user });
         } catch (error) {
             console.error(error);
         }
@@ -26,6 +31,7 @@ const UserController = {
             console.error(error);
         }
     },
+
 
 };
 module.exports = UserController;
