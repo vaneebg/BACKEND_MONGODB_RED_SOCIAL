@@ -42,7 +42,7 @@ const UserController = {
             if (!user.confirmed) {
                 return res.status(400).send('No has verificado el usuario, revisa tu correo.')
             }
-            const token = jwt.sign({ _id: user._id }, jwt_secret);;
+            const token = jwt.sign({ _id: user._id }, jwt_secret);
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
             await user.save();
@@ -50,6 +50,14 @@ const UserController = {
         } catch (error) {
             console.error(error);
             res.send(error)
+        }
+    },
+    async getOne(req, res) {
+        try {
+            const users = await User.findById(req.user._id)
+            res.send(users)
+        } catch (error) {
+            console.error(error);
         }
     },
     async getAll(req, res) {
