@@ -2,7 +2,8 @@ const Post = require("../models/Post");
 const PostController = {
     async create(req, res) {
         try {
-            const post = await Post.create({...req.body, img: req.file.filename })
+            const post = await Post.create({...req.body, img: req.file.filename, userId: req.user._id })
+
             res.status(201).send(post)
         } catch (error) {
             console.error(error)
@@ -27,7 +28,8 @@ const PostController = {
     },
     async update(req, res) {
         try {
-            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename }, { new: true })
+            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename, userId: req.user._id }, { new: true })
+
             res.send({ message: `post with id ${req.params._id} successfully updated`, post });
         } catch (error) {
             console.error(error);
@@ -35,7 +37,7 @@ const PostController = {
     },
     async delete(req, res) {
         try {
-            const post = await Post.findByIdAndDelete(req.params._id)
+            const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
             res.send({ post, message: `Post with id ${req.params._id} deleted` })
         } catch (error) {
             console.error(error)

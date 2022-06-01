@@ -6,7 +6,7 @@ const { jwt_secret } = require('../config/keys.js')
 const UserController = {
     async register(req, res) {
         try {
-            const user = await User.create(req.body);
+            const user = await User.create({...req.body, role: "user" });
             res.status(201).send({ message: "Usuario registrado con exito", user });
         } catch (error) {
             console.error(error);
