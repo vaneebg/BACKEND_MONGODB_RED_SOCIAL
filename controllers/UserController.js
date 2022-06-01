@@ -60,6 +60,14 @@ const UserController = {
             console.error(error);
         }
     },
+    async getUserandPost(req, res) {
+        try {
+            const users = await User.find().populate('postId')
+            res.send(users)
+        } catch (error) {
+            console.error(error);
+        }
+    },
     async getAll(req, res) {
         try {
             const users = await User.find()

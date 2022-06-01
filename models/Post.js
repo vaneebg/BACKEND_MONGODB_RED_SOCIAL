@@ -9,7 +9,7 @@ const PostSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     },
-    deliveryDate: Date
+
 }, { timestamps: true });
 const Post = mongoose.model('Post', PostSchema);
 module.exports = Post;

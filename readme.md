@@ -7,7 +7,7 @@
 [ ] Endpoint para buscar post por nombre
 [X] Endpoint para buscar post por id
 [ ] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
-Paginación de 10 en 10
+[ ]Paginación de 10 en 10
  Likes:
 [ ] Endpoint para dar un like a un post
 [ ] Endpoint para quitar like a un post
@@ -21,13 +21,13 @@ Endpoint para crear un comentario en un determinado post
 [X] Endpoint para login(utilizando bcrypt +JWT)
 [X] Validación en el login:
 Si no has confirmado tu correo no puedes conectarte
-[ ] Endpoint que nos traiga la información del usuario conectado
+[X] Endpoint que nos traiga la información del usuario conectado
 [X] Endpoint para el logout
 [/] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
 
 [ ] Backend disponible en producción (Heroku).
 
-[ ] Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
+[X] Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
 
 
 
