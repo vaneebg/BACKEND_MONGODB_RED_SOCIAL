@@ -52,6 +52,22 @@ const UserController = {
             res.send(error)
         }
     },
+    async getAll(req, res) {
+        try {
+            const users = await User.find()
+            res.send(users)
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    async getAllLogin(req, res) {
+        try {
+            const users = await User.find({ tokens: { $ne: [] } })
+            res.send(users)
+        } catch (error) {
+            console.error(error);
+        }
+    },
 
     async validateUser(req, res) {
         try {
