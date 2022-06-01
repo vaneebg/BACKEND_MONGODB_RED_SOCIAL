@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Post'
     }],
+
     email: {
         type: String,
         unique: true,
