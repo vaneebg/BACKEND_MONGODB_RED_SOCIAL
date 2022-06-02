@@ -9,6 +9,7 @@ const UserController = {
         try {
             req.body.confirmed = false
             let hashedPassword;
+            if (req.file) req.body.img = req.file.filename
             if (req.body.password !== undefined) {
                 hashedPassword = await bcrypt.hashSync(req.body.password, 10)
             }
@@ -113,6 +114,7 @@ const UserController = {
             res.status(404).send(`Enlace roto :(`)
         }
     },
+
     async logout(req, res) {
         try {
             await User.findByIdAndUpdate(req.user._id, {

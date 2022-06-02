@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router()
 const UserController = require('../controllers/UserController');
+const upload = require('../middlewares/addMulter');
 const { authentication, isAdmin, isAuthor } = require("../middlewares/authentication");
 
-router.post('/', UserController.register)
+router.post('/', upload.single('upload'), UserController.register)
 router.post('/login', UserController.login)
 router.get('/', authentication, isAdmin, UserController.getAll)
 router.get('/myinfo', authentication, UserController.getOne)

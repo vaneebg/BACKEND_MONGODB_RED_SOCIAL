@@ -6,7 +6,7 @@
 [X] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
 [X] Endpoint para buscar post por nombre
 [X] Endpoint para buscar post por id
-[ ] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
+[X] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
 [ ]Paginación de 10 en 10
  Likes:
 [ ] Endpoint para dar un like a un post

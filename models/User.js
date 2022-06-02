@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Post'
     }],
+    img: String,
     role: String,
 }, { timestamps: true });
 
