@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { jwt_secret } = require('../config/keys.js')
 const transporter = require('../config/nodemailer');
+const colors = require('colors/safe');
 
 const UserController = {
     async register(req, res, next) {
@@ -26,7 +27,7 @@ const UserController = {
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-
+            console.log(colors.red.bgWhite(error))
             error.origin = 'usuario register'
             next(error)
         }
@@ -50,8 +51,9 @@ const UserController = {
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
             await user.save();
-            res.send({ message: 'Bienvenidx a nuestra suuuper red social! ' + user.username, token });
+            res.send({ message: 'Bienvenidx a nuestra suuuper red social! ' + user.username });
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'usuario login'
             next(error)
         }
@@ -61,6 +63,7 @@ const UserController = {
             const users = await User.findById(req.user._id)
             res.send(users)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'usuario info login'
             next(error)
         }
@@ -72,6 +75,7 @@ const UserController = {
             const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
             res.send(users)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'usuarios posts/comments'
             next(error)
         }
@@ -81,6 +85,7 @@ const UserController = {
             const users = await User.findById(req.user._id).populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
             res.send(users)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'usuario con su post/comment'
             next(error)
         }
@@ -90,6 +95,7 @@ const UserController = {
             const users = await User.find()
             res.send(users)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'todos los usuarios registrados'
             next(error)
         }
@@ -99,6 +105,7 @@ const UserController = {
             const users = await User.find({ tokens: { $ne: [] } })
             res.send(users)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'todos los usuarios en linea'
             next(error)
         }
@@ -110,7 +117,7 @@ const UserController = {
             await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
             res.status(201).send(`Te has verificado correctamente`)
         } catch (error) {
-            console.error(error)
+            console.log(colors.red.bgWhite(error))
             res.status(404).send(`Enlace roto :(`)
         }
     },
@@ -122,7 +129,7 @@ const UserController = {
             });
             res.send({ message: "Desconectado con éxito" });
         } catch (error) {
-            console.error(error);
+            console.log(colors.red.bgWhite(error))
             res.status(500).send({
                 message: "Hubo un problema al intentar conectar al usuario",
             });

@@ -1,5 +1,7 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const colors = require('colors/safe');
+
 const PostController = {
     async create(req, res, next) {
         try {
@@ -10,6 +12,7 @@ const PostController = {
             });
             res.status(201).send(post)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'post crear'
             next(error)
         }
@@ -22,6 +25,7 @@ const PostController = {
                 .skip((page - 1) * limit);
             res.send(posts);
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'post traer todos'
             next(error)
         }
@@ -31,6 +35,7 @@ const PostController = {
             const post = await Post.findById(req.params._id)
             res.send(post)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'post traer id'
             next(error)
         }
@@ -44,6 +49,7 @@ const PostController = {
             const post = await Post.find({ title });
             res.send(post);
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'post traer por nombre'
             next(error)
         }
@@ -54,6 +60,7 @@ const PostController = {
 
             res.send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             error.origin = 'post modificar'
             next(error)
         }
@@ -75,7 +82,7 @@ const PostController = {
             }
 
         } catch (error) {
-            console.error(error);
+            console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: "No dió like :(" });
         }
     },
@@ -96,7 +103,7 @@ const PostController = {
             }
 
         } catch (error) {
-            console.error(error);
+            console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: "Problema para dislike :(" });
         }
     },
@@ -105,7 +112,7 @@ const PostController = {
             const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
             res.send({ post, message: `Post with id ${req.params._id} deleted` })
         } catch (error) {
-            console.error(error)
+            console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'there was a problem trying to remove the post' })
         }
     },

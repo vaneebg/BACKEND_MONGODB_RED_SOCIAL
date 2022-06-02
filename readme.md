@@ -9,8 +9,8 @@
 [X] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
 [X]Paginación de 10 en 10
  Likes:
-[ ] Endpoint para dar un like a un post
-[ ] Endpoint para quitar like a un post
+[X] Endpoint para dar un like a un post
+[X] Endpoint para quitar like a un post
 
 [X]  Comments
 Endpoint para crear un comentario en un determinado post
