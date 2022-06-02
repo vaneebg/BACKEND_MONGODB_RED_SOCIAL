@@ -5,7 +5,7 @@ const PostController = {
         try {
             const post = await Post.create({...req.body, img: req.file.filename, userId: req.user._id })
             await User.findByIdAndUpdate(req.user._id, {
-                $push: { postId: post._id },
+                $push: { postId: post._id }
             });
             res.status(201).send(post)
         } catch (error) {

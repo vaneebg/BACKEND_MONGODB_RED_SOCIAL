@@ -61,9 +61,18 @@ const UserController = {
             res.send(error)
         }
     },
-    async getUserandPost(req, res) {
+    async getUsersandPost(req, res) {
         try {
             const users = await User.find().populate('postId')
+            res.send(users)
+        } catch (error) {
+            console.error(error);
+            res.send(error)
+        }
+    },
+    async getUserPost(req, res) {
+        try {
+            const users = await User.findById(req.user._id).populate('postId')
             res.send(users)
         } catch (error) {
             console.error(error);
