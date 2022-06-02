@@ -29,14 +29,16 @@ const CommentController = {
             next(error)
         }
     },
-    // async getAll(req, res) {
-    //     try {
-    //         const posts = await Post.find()
-    //         res.send(posts)
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // },
+    async getAll(req, res, next) {
+        try {
+            const comments = await Comment.find()
+            res.send(comments)
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            error.origin = 'comment traer todos'
+            next(error)
+        }
+    },
     // async getById(req, res) {
     //     try {
     //         const post = await Post.findById(req.params._id)

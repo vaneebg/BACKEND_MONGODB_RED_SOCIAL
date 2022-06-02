@@ -6,7 +6,7 @@ const { authentication, isAdmin, isAuthor, isAuthor2 } = require("../middlewares
 
 router.post('/idpost/:_id', authentication, upload.single('upload'), CommentController.create)
 router.put('/idcomment/:_id', authentication, isAuthor2, upload.single('upload'), CommentController.update)
-    // router.get('/', authentication, PostController.getAll)
+router.get('/', authentication, isAdmin, CommentController.getAll)
     // router.get('/id/:_id', authentication, PostController.getById)
     // router.put('/id/:_id', authentication, isAuthor, upload.single('upload'), PostController.update)
     // router.delete('/id/:_id', authentication, isAuthor, PostController.delete)
