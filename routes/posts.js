@@ -7,6 +7,7 @@ const { authentication, isAdmin, isAuthor } = require("../middlewares/authentica
 router.post('/', authentication, upload.single('upload'), PostController.create)
 router.get('/', authentication, PostController.getAll)
 router.get('/id/:_id', authentication, PostController.getById)
+router.get('/title/:title', PostController.getPostsByName)
 router.put('/id/:_id', authentication, isAuthor, upload.single('upload'), PostController.update)
 router.delete('/id/:_id', authentication, isAuthor, PostController.delete)
 module.exports = router;

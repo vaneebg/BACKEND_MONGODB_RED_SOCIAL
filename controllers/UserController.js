@@ -60,13 +60,9 @@ const UserController = {
             console.error(error);
             res.send(error)
         }
-        populate({
-            path: "orderIds",
-            populate: {
-                path: "productIds",
-            },
-        })
+
     },
+
     async getUsersPostandComment(req, res) {
         try {
             const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } })

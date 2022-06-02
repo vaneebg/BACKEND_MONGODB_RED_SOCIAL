@@ -31,6 +31,19 @@ const PostController = {
             res.send(error)
         }
     },
+    async getPostsByName(req, res) {
+        try {
+            if (req.params.title.length > 20) {
+                return res.status(400).send('Busqueda demasiado larga')
+            }
+            const title = new RegExp(req.params.title, "i");
+            const post = await Post.find({ title });
+            res.send(post);
+        } catch (error) {
+            console.log(error);
+            res.send(error)
+        }
+    },
     async update(req, res) {
         try {
             const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename, userId: req.user._id }, { new: true })

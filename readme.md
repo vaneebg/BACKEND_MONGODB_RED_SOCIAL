@@ -3,7 +3,7 @@
 [X] Endpoint para crear un post( tiene que estar autenticado)
 [X] Endpoint para actualizar un post ( tiene que estar autenticado)
 [X] Endpoint para eliminar un post( tiene que estar autenticado)
-[/] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
+[X] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
 [ ] Endpoint para buscar post por nombre
 [X] Endpoint para buscar post por id
 [ ] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
@@ -35,9 +35,9 @@ Si no has confirmado tu correo no puedes conectarte
 1.2. Extras
 *Importante, si te dispones a hacer los extras de los comentarios se recomienda (si aún no lo has hecho) que crees una colección para los comentarios.
 
-[ ] Middleware para comprobar la autoría del comentario a la hora de editar/eliminar el mismo.
+[X] Middleware para comprobar la autoría del comentario a la hora de editar/eliminar el mismo.
 [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar posts.
-[ ] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
+[/] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
 [ ] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
 [ ] Implementación de followers:
 Que puedas seguir a otros usuarios
