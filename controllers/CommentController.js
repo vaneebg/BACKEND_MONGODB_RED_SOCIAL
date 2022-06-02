@@ -39,6 +39,16 @@ const CommentController = {
             next(error)
         }
     },
+    async delete(req, res) {
+        try {
+            const comment = await Comment.findByIdAndDelete(req.params._id, { userId: req.user._id, postId: req.params._id })
+            res.send({ message: `Comentario con id ${req.params._id} ha sido borrado`, comment })
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: 'Problema para borrar el comentario' })
+        }
+    },
+
     // async getById(req, res) {
     //     try {
     //         const post = await Post.findById(req.params._id)
@@ -56,14 +66,6 @@ const CommentController = {
     //         console.error(error);
     //     }
     // },
-    // async delete(req, res) {
-    //     try {
-    //         const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
-    //         res.send({ post, message: `Post with id ${req.params._id} deleted` })
-    //     } catch (error) {
-    //         console.error(error)
-    //         res.status(500).send({ message: 'there was a problem trying to remove the post' })
-    //     }
-    // },
+
 }
 module.exports = CommentController;
