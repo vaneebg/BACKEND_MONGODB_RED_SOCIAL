@@ -1,37 +1,38 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 const PostController = {
-    async create(req, res) {
+    async create(req, res, next) {
         try {
-            const post = await Post.create({...req.body, img: req.file.filename, userId: req.user._id })
+            if (req.file) req.body.img = req.file.filename
+            const post = await Post.create({...req.body, userId: req.user._id })
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { postId: post._id }
             });
             res.status(201).send(post)
         } catch (error) {
-            console.error(error)
-            res.status(500).send({ message: 'Ha habido un problema al crear el Post' })
+            error.origin = 'post crear'
+            next(error)
         }
     },
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const posts = await Post.find()
             res.send(posts)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'post traer todos'
+            next(error)
         }
     },
-    async getById(req, res) {
+    async getById(req, res, next) {
         try {
             const post = await Post.findById(req.params._id)
             res.send(post)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'post traer id'
+            next(error)
         }
     },
-    async getPostsByName(req, res) {
+    async getPostsByName(req, res, next) {
         try {
             if (req.params.title.length > 20) {
                 return res.status(400).send('Busqueda demasiado larga')
@@ -40,18 +41,18 @@ const PostController = {
             const post = await Post.find({ title });
             res.send(post);
         } catch (error) {
-            console.log(error);
-            res.send(error)
+            error.origin = 'post traer por nombre'
+            next(error)
         }
     },
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename, userId: req.user._id }, { new: true })
 
-            res.send({ message: `post with id ${req.params._id} successfully updated`, post });
+            res.send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'post modificar'
+            next(error)
         }
     },
     async delete(req, res) {

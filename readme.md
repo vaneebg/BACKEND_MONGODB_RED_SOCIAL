@@ -23,7 +23,7 @@ Endpoint para crear un comentario en un determinado post
 Si no has confirmado tu correo no puedes conectarte
 [X] Endpoint que nos traiga la información del usuario conectado
 [X] Endpoint para el logout
-[/] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
+[X] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
 
 [ ] Backend disponible en producción (Heroku).
 

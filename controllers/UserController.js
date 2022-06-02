@@ -25,7 +25,7 @@ const UserController = {
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-            console.log(error)
+
             error.origin = 'usuario register'
             next(error)
         }
