@@ -76,7 +76,28 @@ const PostController = {
 
         } catch (error) {
             console.error(error);
-            res.status(500).send({ message: "There was a problem with your like" });
+            res.status(500).send({ message: "No dió like :(" });
+        }
+    },
+    async dislike(req, res) {
+        try {
+            const existPost = await Post.findById(req.params._id)
+            if (existPost.likes.includes(req.user._id)) {
+                const post = await Post.findByIdAndUpdate(
+                    req.params._id, { $pull: { likes: req.user._id } }, { new: true }
+                );
+
+                await User.findByIdAndUpdate(
+                    req.user._id, { $pull: { favList: req.params._id } }, { new: true }
+                );
+                res.send('Like hecho con éxito!', post);
+            } else {
+                res.status(400).send({ message: 'No tiene likes ya :(' })
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "Problema para dislike :(" });
         }
     },
     async delete(req, res) {
