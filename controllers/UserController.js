@@ -60,19 +60,25 @@ const UserController = {
             console.error(error);
             res.send(error)
         }
+        populate({
+            path: "orderIds",
+            populate: {
+                path: "productIds",
+            },
+        })
     },
-    async getUsersandPost(req, res) {
+    async getUsersPostandComment(req, res) {
         try {
-            const users = await User.find().populate('postId')
+            const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } })
             res.send(users)
         } catch (error) {
             console.error(error);
             res.send(error)
         }
     },
-    async getUserPost(req, res) {
+    async getUserPostComments(req, res) {
         try {
-            const users = await User.findById(req.user._id).populate('postId')
+            const users = await User.findById(req.user._id).populate({ path: 'postId', populate: { path: 'commentsId' } })
             res.send(users)
         } catch (error) {
             console.error(error);
