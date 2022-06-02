@@ -40,14 +40,20 @@ const PostController = {
             next(error)
         }
     },
-    async getPostsByName(req, res, next) {
+    async getPostsByTitle(req, res, next) {
         try {
             if (req.params.title.length > 20) {
-                return res.status(400).send('Busqueda demasiado larga')
+                return res.status(400).send('Búsqueda demasiado larga')
             }
             const title = new RegExp(req.params.title, "i");
             const post = await Post.find({ title });
-            res.send(post);
+            if (post.length === 0) {
+                res.status(404).send('Ningún título de post coincide con tu búsqueda :(')
+            } else {
+                res.status(200).send(post);
+
+            }
+
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'post traer por nombre'
@@ -56,7 +62,8 @@ const PostController = {
     },
     async update(req, res, next) {
         try {
-            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename, userId: req.user._id }, { new: true })
+            if (req.file) req.body.img = req.file.filename
+            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true })
 
             res.send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {
@@ -97,7 +104,7 @@ const PostController = {
                 await User.findByIdAndUpdate(
                     req.user._id, { $pull: { favList: req.params._id } }, { new: true }
                 );
-                res.send('Like hecho con éxito!', post);
+                res.send({ message: 'Dislike hecho con éxito!' });
             } else {
                 res.status(400).send({ message: 'No tiene likes ya :(' })
             }

@@ -7,7 +7,7 @@ const { authentication, isAdmin, isAuthor } = require("../middlewares/authentica
 router.post('/', authentication, upload.single('upload'), PostController.create)
 router.get('/', authentication, PostController.getAll)
 router.get('/id/:_id', authentication, PostController.getById)
-router.get('/title/:title', PostController.getPostsByName)
+router.get('/title/:title', authentication, PostController.getPostsByTitle)
 router.put('/id/:_id', authentication, isAuthor, upload.single('upload'), PostController.update)
 router.put('/likes/:_id', authentication, PostController.like);
 router.put('/dislikes/:_id', authentication, PostController.dislike);
