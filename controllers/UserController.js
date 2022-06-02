@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { jwt_secret } = require('../config/keys.js')
 const transporter = require('../config/nodemailer');
-const colors = require('colors');
-
 
 const UserController = {
-    async register(req, res) {
+    async register(req, res, next) {
         try {
             req.body.confirmed = false
-            const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+            let hashedPassword;
+            if (req.body.password !== undefined) {
+                hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+            }
             const user = await User.create({...req.body, role: "user", password: hashedPassword });
             const emailToken = await jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
             const url = "http://localhost:8080/users/confirm/" + emailToken
@@ -24,10 +25,12 @@ const UserController = {
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-            console.log.colors.red.underline.bgBrightBlue(error);
+            console.log(error)
+            error.origin = 'usuario register'
+            next(error)
         }
     },
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const user = await User.findOne({
                 email: req.body.email,
@@ -48,55 +51,55 @@ const UserController = {
             await user.save();
             res.send({ message: 'Bienvenidx a nuestra suuuper red social! ' + user.username, token });
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'usuario login'
+            next(error)
         }
     },
-    async getOne(req, res) {
+    async getOne(req, res, next) {
         try {
             const users = await User.findById(req.user._id)
             res.send(users)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'usuario info login'
+            next(error)
         }
 
     },
 
-    async getUsersPostandComment(req, res) {
+    async getUsersPostandComment(req, res, next) {
         try {
             const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } })
             res.send(users)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'usuarios posts/comments'
+            next(error)
         }
     },
-    async getUserPostComments(req, res) {
+    async getUserPostComments(req, res, next) {
         try {
             const users = await User.findById(req.user._id).populate({ path: 'postId', populate: { path: 'commentsId' } })
             res.send(users)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'usuario con su post/comment'
+            next(error)
         }
     },
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const users = await User.find()
             res.send(users)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'todos los usuarios registrados'
+            next(error)
         }
     },
-    async getAllLogin(req, res) {
+    async getAllLogin(req, res, next) {
         try {
             const users = await User.find({ tokens: { $ne: [] } })
             res.send(users)
         } catch (error) {
-            console.error(error);
-            res.send(error)
+            error.origin = 'todos los usuarios en linea'
+            next(error)
         }
     },
 

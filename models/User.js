@@ -5,25 +5,25 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: [true, "Por favor introduce tu nombre de usuario"],
     },
-    postId: [{
-        type: ObjectId,
-        ref: 'Post'
-    }],
-
     email: {
         type: String,
+        match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Este email no es válido"],
         unique: true,
-        required: true,
+        required: [true, "Por favor introduce tu email"],
 
     },
     password: {
         type: String,
-        required: true
+        required: [true, "Por favor introduce una contraseña"],
     },
     confirmed: Boolean,
     tokens: [],
+    postId: [{
+        type: ObjectId,
+        ref: 'Post'
+    }],
     role: String,
 }, { timestamps: true });
 
