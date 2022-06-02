@@ -67,7 +67,34 @@ const UserController = {
             error.origin = 'usuario info login'
             next(error)
         }
-
+    },
+    async getById(req, res, next) {
+        try {
+            const user = await User.findById(req.params._id)
+            res.send(user)
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            error.origin = 'user traer id'
+            next(error)
+        }
+    },
+    async getUsersByUsername(req, res, next) {
+        try {
+            if (req.params.username.length > 20) {
+                return res.status(400).send('Búsqueda demasiado larga')
+            }
+            const username = new RegExp(req.params.username, "i");
+            const user = await User.find({ username });
+            if (user.length === 0) {
+                res.status(404).send('Ningún username coincide con tu búsqueda :(')
+            } else {
+                res.status(200).send(user);
+            }
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            error.origin = 'user traer por nombre'
+            next(error)
+        }
     },
 
     async getUsersPostandComment(req, res, next) {
