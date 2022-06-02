@@ -162,5 +162,16 @@ const UserController = {
             });
         }
     },
+    async deleteUser(req, res) {
+        try {
+            const user = await User.findByIdAndDelete(req.params._id, { userId: req.user._id })
+            res.send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: 'Problema para borrar el user' })
+        }
+    },
+
+
 };
 module.exports = UserController;
