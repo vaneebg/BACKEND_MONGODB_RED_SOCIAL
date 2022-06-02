@@ -58,6 +58,27 @@ const PostController = {
             next(error)
         }
     },
+    async like(req, res) {
+        try {
+            const existPost = await Post.findById(req.params._id)
+            if (!existPost.likes.includes(req.user._id)) {
+                const post = await Post.findByIdAndUpdate(
+                    req.params._id, { $push: { likes: req.user._id } }, { new: true }
+                );
+
+                await User.findByIdAndUpdate(
+                    req.user._id, { $push: { favList: req.params._id } }, { new: true }
+                );
+                res.send(post);
+            } else {
+                res.status(400).send({ message: 'No te infles a likes bro :(' })
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "There was a problem with your like" });
+        }
+    },
     async delete(req, res) {
         try {
             const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
@@ -67,5 +88,6 @@ const PostController = {
             res.status(500).send({ message: 'there was a problem trying to remove the post' })
         }
     },
+
 }
 module.exports = PostController;

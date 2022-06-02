@@ -9,5 +9,6 @@ router.get('/', authentication, PostController.getAll)
 router.get('/id/:_id', authentication, PostController.getById)
 router.get('/title/:title', PostController.getPostsByName)
 router.put('/id/:_id', authentication, isAuthor, upload.single('upload'), PostController.update)
+router.put('/likes/:_id', authentication, PostController.like);
 router.delete('/id/:_id', authentication, isAuthor, PostController.delete)
 module.exports = router;

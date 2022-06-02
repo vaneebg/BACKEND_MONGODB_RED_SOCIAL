@@ -69,7 +69,7 @@ const UserController = {
 
     async getUsersPostandComment(req, res, next) {
         try {
-            const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } })
+            const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
             res.send(users)
         } catch (error) {
             error.origin = 'usuarios posts/comments'
@@ -78,7 +78,7 @@ const UserController = {
     },
     async getUserPostComments(req, res, next) {
         try {
-            const users = await User.findById(req.user._id).populate({ path: 'postId', populate: { path: 'commentsId' } })
+            const users = await User.findById(req.user._id).populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
             res.send(users)
         } catch (error) {
             error.origin = 'usuario con su post/comment'
