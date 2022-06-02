@@ -1,17 +1,32 @@
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const User = require("../models/User");
+const colors = require('colors/safe');
+
 const CommentController = {
     async create(req, res) {
         try {
-            const comment = await Comment.create({...req.body, img: req.file.filename, userId: req.user._id, postId: req.params._id })
+            if (req.file) req.body.img = req.file.filename
+            const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id })
             await Post.findByIdAndUpdate(req.params._id, {
                 $push: { commentsId: comment._id },
             });
             res.status(201).send(comment)
         } catch (error) {
             console.error(error)
-            res.status(500).send({ message: 'Ha habido un problema al crear el Comment' })
+            res.status(500).send({ message: 'Ha habido un problema al crear el comentario' })
+        }
+    },
+    async update(req, res, next) {
+        try {
+            if (req.file) req.body.img = req.file.filename
+            const comment = await Comment.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id, postId: req.params._id }, { new: true })
+
+            res.send({ message: `Comentario con id ${req.params._id} modificado con éxito`, comment });
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            error.origin = 'comment modificar'
+            next(error)
         }
     },
     // async getAll(req, res) {

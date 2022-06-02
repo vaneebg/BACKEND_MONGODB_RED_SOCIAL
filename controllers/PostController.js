@@ -117,10 +117,10 @@ const PostController = {
     async delete(req, res) {
         try {
             const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
-            res.send({ post, message: `Post with id ${req.params._id} deleted` })
+            res.send({ message: `Post con id ${req.params._id} ha sido borrado`, post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            res.status(500).send({ message: 'there was a problem trying to remove the post' })
+            res.status(500).send({ message: 'Problema para borrar el post' })
         }
     },
 

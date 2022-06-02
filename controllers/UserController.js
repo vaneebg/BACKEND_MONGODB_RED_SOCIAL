@@ -21,7 +21,7 @@ const UserController = {
                 to: req.body.email,
                 subject: "Confirma tu registro a nuestra red social",
                 html: `<h2>¡Hola ${user.username}!</h2>
-                <p>Para finalizar tu registro correctamente <a href=${url}>haz click aquí</a> UwU</p>
+                <p>Para finalizar tu registro en la suuper red social correctamente <a href=${url}>haz click aquí</a> </p>
                 `
             })
 
