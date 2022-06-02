@@ -38,7 +38,7 @@ Si no has confirmado tu correo no puedes conectarte
 [X] Middleware para comprobar la autoría del comentario a la hora de editar/eliminar el mismo.
 [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar posts.
 [/] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
-[ ] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
+[/] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
 [ ] Implementación de followers:
 Que puedas seguir a otros usuarios
 Que puedas dejar de seguir a otros usuarios
