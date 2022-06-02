@@ -48,24 +48,16 @@ const CommentController = {
             res.status(500).send({ message: 'Problema para borrar el comentario' })
         }
     },
-
-    // async getById(req, res) {
-    //     try {
-    //         const post = await Post.findById(req.params._id)
-    //         res.send(post)
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // },
-    // async update(req, res) {
-    //     try {
-    //         const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, img: req.file.filename, userId: req.user._id }, { new: true })
-
-    //         res.send({ message: `post with id ${req.params._id} successfully updated`, post });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // },
+    async getById(req, res, next) {
+        try {
+            const comment = await Comment.findById(req.params._id)
+            res.send(comment)
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            error.origin = 'comment traer id'
+            next(error)
+        }
+    },
 
 }
 module.exports = CommentController;

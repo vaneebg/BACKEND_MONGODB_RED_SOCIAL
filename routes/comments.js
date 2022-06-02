@@ -7,7 +7,6 @@ const { authentication, isAdmin, isAuthor, isAuthor2 } = require("../middlewares
 router.post('/idpost/:_id', authentication, upload.single('upload'), CommentController.create)
 router.put('/idcomment/:_id', authentication, isAuthor2, upload.single('upload'), CommentController.update)
 router.get('/', authentication, isAdmin, CommentController.getAll)
-    // router.get('/id/:_id', authentication, PostController.getById)
-    // router.put('/id/:_id', authentication, isAuthor, upload.single('upload'), PostController.update)
+router.get('/id/:_id', authentication, CommentController.getById)
 router.delete('/id/:_id', authentication, isAuthor2, CommentController.delete)
 module.exports = router;
