@@ -20,12 +20,13 @@ const PostController = {
     async getAll(req, res, next) {
         try {
             const { page = 1, limit = 10 } = req.query;
+            const allPosts = await Post.find({}, { title: 1, body: 1, img: 1 })
             const posts = await Post.find({}, { title: 1, body: 1, img: 1 })
                 .populate({ path: 'userId', select: 'username email' })
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username' } })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
-            res.send(posts);
+            res.send({ Number_of_posts: allPosts.length, posts });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'post traer todos'

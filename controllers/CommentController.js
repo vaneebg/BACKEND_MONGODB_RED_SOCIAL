@@ -35,7 +35,7 @@ const CommentController = {
     async getAll(req, res, next) {
         try {
             const comments = await Comment.find()
-            res.send(comments)
+            res.send({ Number_of_comments: comments.length, comments })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'comment traer todos'

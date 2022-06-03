@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     },
     confirmed: Boolean,
     tokens: [],
-    postId: [{
+    postsId: [{
         type: ObjectId,
         ref: 'Post'
     }],

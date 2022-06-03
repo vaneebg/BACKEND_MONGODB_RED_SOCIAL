@@ -63,8 +63,9 @@ const UserController = {
     async getOne(req, res, next) {
         try {
             const user = await User.findById(req.user._id)
-                .populate({ path: 'postId', select: { createdAd: 0, updatedAd: 0 } })
-            res.send({ Followers: user.followers.length, Following: user.following.length, user })
+                .populate({ path: 'postsId', })
+            console.log(req.user.followers)
+            res.send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'usuario info login'
@@ -74,7 +75,7 @@ const UserController = {
     async getById(req, res, next) {
         try {
             const user = await User.findById(req.params._id)
-            res.send(user)
+            res.send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'user traer id'
@@ -87,7 +88,8 @@ const UserController = {
                 return res.status(400).send('Búsqueda demasiado larga')
             }
             const username = new RegExp(req.params.username, "i");
-            const user = await User.find({ username }, { username: 1, email: 1, img: 1, confirmed: 1 });
+            const user = await User.find({ username })
+                .populate({ path: 'postsId' });
             if (user.length === 0) {
                 res.status(404).send('Ningún username coincide con tu búsqueda :(')
             } else {
@@ -103,9 +105,8 @@ const UserController = {
     async getAllInfoUsers(req, res, next) {
         try {
             const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1 })
-                .populate({ path: 'postId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
+                .populate({ path: 'postsId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
                 .populate('favList')
-
             res.send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -116,7 +117,7 @@ const UserController = {
     async getUserPostComments(req, res, next) {
         try {
             const users = await User.findById(req.user._id)
-                .populate({ path: 'postId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
+                .populate({ path: 'postsId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
                 .populate('favList')
             res.send(users)
         } catch (error) {
