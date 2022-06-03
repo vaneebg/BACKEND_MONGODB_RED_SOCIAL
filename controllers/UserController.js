@@ -99,7 +99,7 @@ const UserController = {
         }
     },
 
-    async getUsersPostandComment(req, res, next) {
+    async getAllInfoUsers(req, res, next) {
         try {
             const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
             res.send(users)

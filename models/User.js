@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Post'
     }],
+    commentsId: [{
+        type: ObjectId,
+        ref: 'Comment'
+    }],
     img: String,
     role: String,
 }, { timestamps: true });

@@ -11,6 +11,9 @@ const CommentController = {
             await Post.findByIdAndUpdate(req.params._id, {
                 $push: { commentsId: comment._id },
             });
+            await User.findByIdAndUpdate(req.user._id, {
+                $push: { commentsId: comment._id },
+            });
             res.status(201).send(comment)
         } catch (error) {
             console.error(error)
