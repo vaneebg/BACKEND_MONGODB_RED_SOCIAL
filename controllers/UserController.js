@@ -183,7 +183,10 @@ const UserController = {
                 const user = await User.findByIdAndUpdate(
                     req.params._id, { $push: { followers: req.user._id } }, { new: true }
                 );
-                res.send({ message: "El usuario al que ahora sigues ", user });
+                const user2 = await User.findByIdAndUpdate(
+                    req.user._id, { $push: { following: req.params._id } }, { new: true }
+                );
+                res.send({ message: "El usuario al que ahora sigues ", user, user2 });
             } else {
                 res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues ò_ó' })
             }
@@ -198,9 +201,12 @@ const UserController = {
             const existUser = await User.findById(req.params._id)
             if (existUser.followers.includes(req.user._id)) {
                 const user = await User.findByIdAndUpdate(
-                    req.params._id, { $pull: { followers: req.user._id } }, { new: true }
+                    req.params._id, { $pull: { followers: req.user._id } }, { new: true },
                 );
-                res.send({ message: 'Dejaste de seguir al usuario ', user });
+                const user2 = await User.findByIdAndUpdate(
+                    req.user._id, { $pull: { following: req.params._id } }, { new: true }
+                );
+                res.send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
             } else {
                 res.status(400).send({ message: 'Ya lo has dejado de seguir!! :(' })
             }
