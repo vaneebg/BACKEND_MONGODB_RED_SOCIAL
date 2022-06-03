@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Por favor introduce tu nombre de usuario"],
     },
+    age: {
+        type: Number,
+        required: [true, "Por favor introduce tu edad"],
+    },
     email: {
         type: String,
         match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Este email no es válido"],
