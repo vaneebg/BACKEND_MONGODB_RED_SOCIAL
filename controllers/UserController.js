@@ -64,7 +64,7 @@ const UserController = {
         try {
             const user = await User.findById(req.user._id)
                 .populate({ path: 'postId', select: { createdAd: 0, updatedAd: 0 } })
-            res.send({ user, Followers: user.followers.length, Following: user.following.length })
+            res.send({ Followers: user.followers.length, Following: user.following.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'usuario info login'
@@ -137,7 +137,7 @@ const UserController = {
     },
     async getAllLogin(req, res, next) {
         try {
-            const users = await User.find({ tokens: { $ne: [] } }, { createdAt: 0, updatedAt: 0 })
+            const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1 })
             res.send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))

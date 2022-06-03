@@ -34,7 +34,7 @@ const CommentController = {
     },
     async getAll(req, res, next) {
         try {
-            const comments = await Comment.find({}, { createdAt: 0, updatedAt: 0 })
+            const comments = await Comment.find()
             res.send(comments)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
