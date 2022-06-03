@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { jwt_secret } = require('../config/keys.js')
+
+require("dotenv").config();
+const JWT_SECRET = process.env.JWT_SECRET
 const transporter = require('../config/nodemailer');
 const colors = require('colors/safe');
 
@@ -15,7 +17,7 @@ const UserController = {
                 hashedPassword = await bcrypt.hashSync(req.body.password, 10)
             }
             const user = await User.create({...req.body, role: "user", password: hashedPassword });
-            const emailToken = await jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
+            const emailToken = await jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' })
             const url = "http://localhost:8080/users/confirm/" + emailToken
             await transporter.sendMail({
                 to: req.body.email,
@@ -47,7 +49,7 @@ const UserController = {
             if (!user.confirmed) {
                 return res.status(400).send('No has verificado el usuario, revisa tu correo.')
             }
-            const token = jwt.sign({ _id: user._id }, jwt_secret);
+            const token = jwt.sign({ _id: user._id }, JWT_SECRET);
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
             await user.save();
@@ -140,7 +142,7 @@ const UserController = {
 
     async validateUser(req, res) {
         try {
-            const payload = jwt.verify(req.params.token, jwt_secret)
+            const payload = jwt.verify(req.params.token, JWT_SECRET)
             await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
             res.status(201).send(`Te has verificado correctamente`)
         } catch (error) {
