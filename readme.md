@@ -39,7 +39,7 @@ Si no has confirmado tu correo no puedes conectarte
 [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar posts.
 [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
 [/] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
-[ ] Implementación de followers:
+[X] Implementación de followers:
 Que puedas seguir a otros usuarios
 Que puedas dejar de seguir a otros usuarios
 [ ] El Endpoint que nos trae la información del usuario conectado, además que nos traiga los posts y el número de seguidores que tiene

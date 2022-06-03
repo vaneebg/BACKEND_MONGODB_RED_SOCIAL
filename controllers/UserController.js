@@ -63,6 +63,7 @@ const UserController = {
     async getOne(req, res, next) {
         try {
             const users = await User.findById(req.user._id)
+                .populate('postId')
             res.send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -177,45 +178,53 @@ const UserController = {
         }
     },
     async following(req, res) {
-        try {
-            const existUser = await User.findById(req.params._id)
-            if (!existUser.followers.includes(req.user._id)) {
-                const user = await User.findByIdAndUpdate(
-                    req.params._id, { $push: { followers: req.user._id } }, { new: true }
-                );
-                const user2 = await User.findByIdAndUpdate(
-                    req.user._id, { $push: { following: req.params._id } }, { new: true }
-                );
-                res.send({ message: "El usuario al que ahora sigues ", user, user2 });
-            } else {
-                res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues ò_ó' })
-            }
+        if (req.params._id != req.user._id) {
+            try {
+                const existUser = await User.findById(req.params._id)
+                if (!existUser.followers.includes(req.user._id)) {
+                    const user = await User.findByIdAndUpdate(
+                        req.params._id, { $push: { followers: req.user._id } }, { new: true }
+                    );
+                    const user2 = await User.findByIdAndUpdate(
+                        req.user._id, { $push: { following: req.params._id } }, { new: true }
+                    );
+                    res.send({ message: "El usuario al que ahora sigues ", user, user2 });
+                } else {
+                    res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues ò_ó' })
+                }
 
-        } catch (error) {
-            console.log(colors.red.bgWhite(error))
-            res.status(500).send({ message: "No se pudo seguir :(" });
+            } catch (error) {
+                console.log(colors.red.bgWhite(error))
+                res.status(500).send({ message: "No se pudo seguir :(" });
+            }
+        } else {
+            res.status(400).send({ message: "Yeee crack, no puedes seguirte a ti mismx !" })
         }
     },
     async unfollow(req, res) {
-        try {
-            const existUser = await User.findById(req.params._id)
-            if (existUser.followers.includes(req.user._id)) {
-                const user = await User.findByIdAndUpdate(
-                    req.params._id, { $pull: { followers: req.user._id } }, { new: true },
-                );
-                const user2 = await User.findByIdAndUpdate(
-                    req.user._id, { $pull: { following: req.params._id } }, { new: true }
-                );
-                res.send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
-            } else {
-                res.status(400).send({ message: 'Ya lo has dejado de seguir!! :(' })
-            }
+        if (req.user._id != req.params._id) {
+            try {
+                const existUser = await User.findById(req.params._id)
+                if (existUser.followers.includes(req.user._id)) {
+                    const user = await User.findByIdAndUpdate(
+                        req.params._id, { $pull: { followers: req.user._id } }, { new: true },
+                    );
+                    const user2 = await User.findByIdAndUpdate(
+                        req.user._id, { $pull: { following: req.params._id } }, { new: true }
+                    );
+                    res.send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
+                } else {
+                    res.status(400).send({ message: 'Ya lo has dejado de seguir!! :(' })
+                }
 
-        } catch (error) {
-            console.log(colors.red.bgWhite(error))
-            res.status(500).send({ message: "Problema para unfollow" });
+            } catch (error) {
+                console.log(colors.red.bgWhite(error))
+                res.status(500).send({ message: "Problema para unfollow" });
+            }
+        } else {
+            res.status(400).send({ message: "Yeee crack, no puedes dejar de seguirte a ti mismx !" })
         }
-    },
+    }
 
 };
 module.exports = UserController;
