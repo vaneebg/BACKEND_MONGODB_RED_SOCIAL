@@ -20,9 +20,9 @@ const PostController = {
     async getAll(req, res, next) {
         try {
             const { page = 1, limit = 10 } = req.query;
-            const posts = await Post.find()
-                .populate('userId')
-                .populate({ path: 'commentsId', populate: { path: 'userId' } })
+            const posts = await Post.find({}, { title: 1, body: 1, img: 1 })
+                .populate({ path: 'userId', select: 'username email' })
+                .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username' } })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
             res.send(posts);
@@ -48,7 +48,8 @@ const PostController = {
                 return res.status(400).send('Búsqueda demasiado larga')
             }
             const title = new RegExp(req.params.title, "i");
-            const post = await Post.find({ title });
+            const post = await Post.find({ title }, { title: 1, body: 1, img: 1 })
+                .populate({ path: 'commentsId', select: 'title body img' });
             if (post.length === 0) {
                 res.status(404).send('Ningún título de post coincide con tu búsqueda :(')
             } else {
