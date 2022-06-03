@@ -51,7 +51,7 @@ Que puedas dejar de seguir a otros usuarios
 [ ] Crea una documentación de tu proyecto
 Comments
 [X] CRUD comments
-[ ] Likes:
+[X] Likes:
 Dar un like a un comentario
 Quitar like a un comentario
 

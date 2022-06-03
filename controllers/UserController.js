@@ -176,7 +176,40 @@ const UserController = {
             res.status(500).send({ message: 'Problema para borrar el user' })
         }
     },
+    async following(req, res) {
+        try {
+            const existUser = await User.findById(req.params._id)
+            if (!existUser.followers.includes(req.user._id)) {
+                const user = await User.findByIdAndUpdate(
+                    req.params._id, { $push: { followers: req.user._id } }, { new: true }
+                );
+                res.send({ message: "El usuario al que ahora sigues ", user });
+            } else {
+                res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues ò_ó' })
+            }
 
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: "No se pudo seguir :(" });
+        }
+    },
+    async unfollow(req, res) {
+        try {
+            const existUser = await User.findById(req.params._id)
+            if (existUser.followers.includes(req.user._id)) {
+                const user = await User.findByIdAndUpdate(
+                    req.params._id, { $pull: { followers: req.user._id } }, { new: true }
+                );
+                res.send({ message: 'Dejaste de seguir al usuario ', user });
+            } else {
+                res.status(400).send({ message: 'Ya lo has dejado de seguir!! :(' })
+            }
+
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: "Problema para unfollow" });
+        }
+    },
 
 };
 module.exports = UserController;

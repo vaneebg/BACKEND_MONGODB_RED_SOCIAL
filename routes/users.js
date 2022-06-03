@@ -16,6 +16,7 @@ router.delete('/logout', authentication, UserController.logout)
 router.get('/id/:_id', authentication, UserController.getById)
 router.get('/username/:username', authentication, UserController.getUsersByUsername)
 router.delete('/userId/:_id', authentication, isAdmin, UserController.deleteUser)
-
+router.put('/followUser/:_id', authentication, UserController.following)
+router.put('/unfollowUser/:_id', authentication, UserController.unfollow)
 
 module.exports = router;

@@ -36,6 +36,14 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Comment'
     }],
+    following: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
+    followers: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     img: String,
     role: String,
 }, { timestamps: true });
