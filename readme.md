@@ -42,7 +42,7 @@ Si no has confirmado tu correo no puedes conectarte
 [X] Implementación de followers:
 Que puedas seguir a otros usuarios
 Que puedas dejar de seguir a otros usuarios
-[ ] El Endpoint que nos trae la información del usuario conectado, además que nos traiga los posts y el número de seguidores que tiene
+[X] El Endpoint que nos trae la información del usuario conectado, además que nos traiga los posts y el número de seguidores que tiene
 [ ] Endpoint que nos trae la información del usuario conectado junto a sus post y número de followers, también que nos muestre el nombre de los followers que siguen al usuario conectado
 [X] El endpoint que trae todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post que también traiga los usuarios que hicieron los comentarios
 [X] Endpoint para buscar usuario por nombre

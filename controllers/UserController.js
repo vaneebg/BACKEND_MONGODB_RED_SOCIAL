@@ -62,9 +62,9 @@ const UserController = {
     },
     async getOne(req, res, next) {
         try {
-            const users = await User.findById(req.user._id)
+            const user = await User.findById(req.user._id)
                 .populate('postId')
-            res.send(users)
+            res.send({ user, Followers: user.followers.length, Following: user.following.length })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'usuario info login'
