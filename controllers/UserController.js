@@ -101,7 +101,10 @@ const UserController = {
 
     async getAllInfoUsers(req, res, next) {
         try {
-            const users = await User.find().populate({ path: 'postId', populate: { path: 'commentsId' } }).populate('favList')
+            const users = await User.find()
+                .populate({ path: 'postId', populate: { path: 'commentsId' } })
+                .populate('favList')
+
             res.send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))

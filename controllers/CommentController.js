@@ -61,6 +61,47 @@ const CommentController = {
             next(error)
         }
     },
+    async like(req, res) {
+        try {
+            const existComment = await Comment.findById(req.params._id)
+            if (!existComment.likes.includes(req.user._id)) {
+                const comment = await Comment.findByIdAndUpdate(
+                    req.params._id, { $push: { likes: req.user._id } }, { new: true }
+                );
 
+                await User.findByIdAndUpdate(
+                    req.user._id, { $push: { favComments: req.params._id } }, { new: true }
+                );
+                res.send(comment);
+            } else {
+                res.status(400).send({ message: 'No te infles a likes en el comentario bro :(' })
+            }
+
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: "No dió like al comentario :(" });
+        }
+    },
+    async dislike(req, res) {
+        try {
+            const existComment = await Comment.findById(req.params._id)
+            if (existComment.likes.includes(req.user._id)) {
+                const comment = await Comment.findByIdAndUpdate(
+                    req.params._id, { $pull: { likes: req.user._id } }, { new: true }
+                );
+
+                await User.findByIdAndUpdate(
+                    req.user._id, { $pull: { favComments: req.params._id } }, { new: true }
+                );
+                res.send({ message: 'Dislike al comentario hecho con éxito!' });
+            } else {
+                res.status(400).send({ message: 'No tiene likes este comentario ya :(' })
+            }
+
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: "Problema para dislike en comment" });
+        }
+    },
 }
 module.exports = CommentController;

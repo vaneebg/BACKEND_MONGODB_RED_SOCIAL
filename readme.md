@@ -25,7 +25,7 @@ Si no has confirmado tu correo no puedes conectarte
 [X] Endpoint para el logout
 [X] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
 
-[ ] Backend disponible en producción (Heroku).
+[/] Backend disponible en producción (Heroku).
 
 [X] Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
 
