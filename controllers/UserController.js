@@ -242,7 +242,22 @@ const UserController = {
         } else {
             res.status(400).send({ message: "Yeee crack, no puedes dejar de seguirte a ti mismx !" })
         }
-    }
+    },
+    async update(req, res) {
+        try {
+            let hashedPassword;
+            if (req.file) req.body.img = req.file.filename
+            const { username, password, img } = req.body
+            if (password !== undefined) {
+                hashedPassword = await bcrypt.hashSync(password, 10)
+            }
+            const user = await User.findByIdAndUpdate(req.user._id, { username, img, role: "user", password: hashedPassword }, { new: true })
+            res.status(201).send({ message: `User con id ${req.user._id} modificado con éxito`, user });
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: 'No se pudo modificar el post' })
+        }
+    },
 
 };
 module.exports = UserController;
