@@ -44,7 +44,7 @@ const CommentController = {
     },
     async delete(req, res) {
         try {
-            const comment = await Comment.findByIdAndDelete(req.params._id, { userId: req.user._id, postId: req.params._id })
+            const comment = await Comment.findByIdAndDelete(req.params._id)
             res.send({ message: `Comentario con id ${req.params._id} ha sido borrado`, comment })
         } catch (error) {
             console.log(colors.red.bgWhite(error))

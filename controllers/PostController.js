@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 const colors = require('colors/safe');
 
 const PostController = {
@@ -120,7 +121,8 @@ const PostController = {
     },
     async delete(req, res) {
         try {
-            const post = await Post.findByIdAndDelete(req.params._id, { userId: req.user._id })
+            const post = await Post.findByIdAndDelete(req.params._id)
+            await Comment.deleteMany({ postId: req.params._id })
             res.send({ message: `Post con id ${req.params._id} ha sido borrado`, post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
