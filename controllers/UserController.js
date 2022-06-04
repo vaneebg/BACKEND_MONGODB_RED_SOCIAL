@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -177,7 +179,9 @@ const UserController = {
     },
     async deleteUserAdmin(req, res) {
         try {
-            const user = await User.findByIdAndDelete(req.params._id, { userId: req.user._id })
+            const user = await User.findByIdAndDelete(req.params._id)
+            await Post.deleteMany({ userId: req.params._id })
+            await Comment.deleteMany({ userId: req.params._id })
             res.send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -187,6 +191,9 @@ const UserController = {
     async deleteUser(req, res) {
         try {
             const user = await User.findByIdAndDelete(req.user._id)
+            await Post.deleteMany({ userId: req.user._id })
+            await Comment.deleteMany({ userId: req.user._id })
+
             res.send({ message: `Tu usuario ${req.user.username} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
