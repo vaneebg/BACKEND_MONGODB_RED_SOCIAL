@@ -64,7 +64,6 @@ const UserController = {
         try {
             const user = await User.findById(req.user._id)
                 .populate({ path: 'postsId', })
-            console.log(req.user.followers)
             res.send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -176,10 +175,19 @@ const UserController = {
             });
         }
     },
-    async deleteUser(req, res) {
+    async deleteUserAdmin(req, res) {
         try {
             const user = await User.findByIdAndDelete(req.params._id, { userId: req.user._id })
             res.send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(500).send({ message: 'Problema para borrar el user admin' })
+        }
+    },
+    async deleteUser(req, res) {
+        try {
+            const user = await User.findByIdAndDelete(req.user._id)
+            res.send({ message: `Tu usuario ${req.user.username} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el user' })
