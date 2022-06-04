@@ -4,7 +4,7 @@ const User = require("../models/User");
 const colors = require('colors/safe');
 
 const CommentController = {
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             if (req.file) req.body.img = req.file.filename
             const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id })
@@ -16,49 +16,50 @@ const CommentController = {
             });
             res.status(201).send(comment)
         } catch (error) {
+            console.log(colors.red.bgWhite(error))
             console.error(error)
-            res.status(500).send({ message: 'Ha habido un problema al crear el comentario' })
+            error.origin = 'comment modificar'
+            next(error)
+
         }
     },
-    async update(req, res, next) {
+    async update(req, res) {
         try {
             if (req.file) req.body.img = req.file.filename
             const comment = await Comment.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id, postId: req.params._id }, { new: true })
 
-            res.send({ message: `Comentario con id ${req.params._id} modificado con éxito`, comment });
+            res.status(201).send({ message: `Comentario con id ${req.params._id} modificado con éxito`, comment });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'comment modificar'
-            next(error)
+            res.status(201).send({ message: 'No se pudo actualizar el comentario' })
         }
     },
-    async getAll(req, res, next) {
+    async getAll(req, res) {
         try {
             const comments = await Comment.find()
-            res.send({ Number_of_comments: comments.length, comments })
+            res.status(200).send({ Number_of_comments: comments.length, comments })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'comment traer todos'
-            next(error)
+            res.status(500).send({ message: 'No se pudieron conseguir los comentarios' })
+
         }
     },
     async delete(req, res) {
         try {
             const comment = await Comment.findByIdAndDelete(req.params._id)
-            res.send({ message: `Comentario con id ${req.params._id} ha sido borrado`, comment })
+            res.status(200).send({ message: `Comentario con id ${req.params._id} ha sido borrado`, comment })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el comentario' })
         }
     },
-    async getById(req, res, next) {
+    async getById(req, res) {
         try {
             const comment = await Comment.findById(req.params._id)
-            res.send(comment)
+            res.status(200).send(comment)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'comment traer id'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir por Id el comentario' })
         }
     },
     async like(req, res) {
@@ -72,7 +73,7 @@ const CommentController = {
                 await User.findByIdAndUpdate(
                     req.user._id, { $push: { favComments: req.params._id } }, { new: true }
                 );
-                res.send(comment);
+                res.status(201).send(comment);
             } else {
                 res.status(400).send({ message: 'No te infles a likes en el comentario bro :(' })
             }
@@ -86,14 +87,14 @@ const CommentController = {
         try {
             const existComment = await Comment.findById(req.params._id)
             if (existComment.likes.includes(req.user._id)) {
-                const comment = await Comment.findByIdAndUpdate(
+                await Comment.findByIdAndUpdate(
                     req.params._id, { $pull: { likes: req.user._id } }, { new: true }
                 );
 
                 await User.findByIdAndUpdate(
                     req.user._id, { $pull: { favComments: req.params._id } }, { new: true }
                 );
-                res.send({ message: 'Dislike al comentario hecho con éxito!' });
+                res.status(201).send({ message: 'Dislike al comentario hecho con éxito!' });
             } else {
                 res.status(400).send({ message: 'No tiene likes este comentario ya :(' })
             }

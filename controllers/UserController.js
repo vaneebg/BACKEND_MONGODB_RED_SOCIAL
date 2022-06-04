@@ -36,17 +36,17 @@ const UserController = {
             next(error)
         }
     },
-    async login(req, res, next) {
+    async login(req, res) {
         try {
             const user = await User.findOne({
                 email: req.body.email,
             })
             if (!user) {
-                return res.send('Email/contraseña incorrectos')
+                return res.status(400).send('Email/contraseña incorrectos')
             }
             const isMatch = bcrypt.compareSync(req.body.password, user.password);
             if (!isMatch) {
-                return res.send('Email/contraseña incorrectos')
+                return res.status(400).send('Email/contraseña incorrectos')
             }
             if (!user.confirmed) {
                 return res.status(400).send('No has verificado el usuario, revisa tu correo.')
@@ -55,35 +55,34 @@ const UserController = {
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
             await user.save();
-            res.send({ message: 'Bienvenidx a nuestra suuuper red social ' + user.username + '!!' });
+            res.status(200).send({ message: 'Bienvenidx a nuestra suuuper red social ' + user.username + '!!' });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'usuario login'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conectar' })
+
         }
     },
-    async getOne(req, res, next) {
+    async getOne(req, res) {
         try {
             const user = await User.findById(req.user._id)
-                .populate({ path: 'postsId', })
-            res.send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
+                .populate({ path: 'postsId' })
+                .populate("followers", "username")
+            res.status(200).send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'usuario info login'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir tu info' })
         }
     },
-    async getById(req, res, next) {
+    async getById(req, res) {
         try {
             const user = await User.findById(req.params._id)
-            res.send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
+            res.status(200).send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'user traer id'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir por id el usuario' })
         }
     },
-    async getUsersByUsername(req, res, next) {
+    async getUsersByUsername(req, res) {
         try {
             if (req.params.username.length > 20) {
                 return res.status(400).send('Búsqueda demasiado larga')
@@ -98,12 +97,11 @@ const UserController = {
             }
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'user traer por nombre'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir por username el usuario' })
         }
     },
 
-    async getAllInfoUsers(req, res, next) {
+    async getAllInfoUsers(req, res) {
         try {
             const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1, followers: 1, following: 1, postsId: 1 })
                 .populate({ path: 'postsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'commentsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
@@ -111,45 +109,43 @@ const UserController = {
             const listUsers = users.map(user => {
                 return { Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user }
             })
-            res.send(listUsers)
+            res.status(200).send(listUsers)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'usuarios posts/comments'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir todos los usuarios registrados' })
         }
     },
-    async getUserPostComments(req, res, next) {
+    async getUserPostComments(req, res) {
         try {
             const users = await User.findById(req.user._id)
                 .populate({ path: 'postsId', select: { title: 1, body: 1 }, populate: { path: 'commentsId', select: { title: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
                 .populate('favList', ['title', 'body', 'img'])
                 .select('username')
 
-            res.send(users)
+            res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'usuario con su post/comment'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir toda tuu info' })
+
         }
     },
-    async getAll(req, res, next) {
+    async getAll(req, res) {
         try {
             const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1 })
-            res.send(users)
+            res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'todos los usuarios registrados'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir todo' })
+
         }
     },
-    async getAllLogin(req, res, next) {
+    async getAllLogin(req, res) {
         try {
             const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1 })
-            res.send(users)
+            res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'todos los usuarios en linea'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir todos los usuarios en linea' })
         }
     },
 
@@ -169,7 +165,7 @@ const UserController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-            res.send({ message: "Desconectado con éxito" });
+            res.status(200).send({ message: "Desconectado con éxito" });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
@@ -182,7 +178,7 @@ const UserController = {
             const user = await User.findByIdAndDelete(req.params._id)
             await Post.deleteMany({ userId: req.params._id })
             await Comment.deleteMany({ userId: req.params._id })
-            res.send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
+            res.status(200).send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el user admin' })
@@ -194,7 +190,7 @@ const UserController = {
             await Post.deleteMany({ userId: req.user._id })
             await Comment.deleteMany({ userId: req.user._id })
 
-            res.send({ message: `Tu usuario ${req.user.username} ha sido borrado`, user })
+            res.status(200).send({ message: `Tu usuario ${req.user.username} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el user' })
@@ -211,7 +207,7 @@ const UserController = {
                     const user2 = await User.findByIdAndUpdate(
                         req.user._id, { $push: { following: req.params._id } }, { new: true }
                     );
-                    res.send({ message: "El usuario al que ahora sigues ", user, user2 });
+                    res.status(201).send({ message: "El usuario al que ahora sigues ", user, user2 });
                 } else {
                     res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues o que no está dado de alta aún ò_ó' })
                 }
@@ -220,7 +216,7 @@ const UserController = {
                 res.status(500).send({ message: "No se pudo seguir :(" });
             }
         } else {
-            res.status(400).send({ message: "Yeee crack, no puedes seguirte a ti mismx !" })
+            res.status(400).send({ message: "Yeee crack, no puedes seguirte a ti mismx! Yee nano, on vas??" })
         }
     },
     async unfollow(req, res) {
@@ -234,7 +230,7 @@ const UserController = {
                     const user2 = await User.findByIdAndUpdate(
                         req.user._id, { $pull: { following: req.params._id } }, { new: true }
                     );
-                    res.send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
+                    res.status(201).send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
                 } else {
                     res.status(400).send({ message: 'Ya lo has dejado de seguir o no está de alta!! :(' })
                 }

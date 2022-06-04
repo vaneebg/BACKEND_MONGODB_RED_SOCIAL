@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3001;
 const { dbConnection } = require("./config/config")
 app.use(express.json())
 dbConnection()
+app.use(express.static('./uploads'));
 const colors = require('colors/safe');
 const { typeError } = require('./middlewares/errors');
 

@@ -18,7 +18,7 @@ const PostController = {
             next(error)
         }
     },
-    async getAll(req, res, next) {
+    async getAll(req, res) {
         try {
             const { page = 1, limit = 10 } = req.query;
             const allPosts = await Post.find({}, { title: 1, body: 1, img: 1 })
@@ -27,24 +27,24 @@ const PostController = {
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username' } })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
-            res.send({ Number_of_posts: allPosts.length, posts });
+            res.status(200).send({ Number_of_posts: allPosts.length, posts });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'post traer todos'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir todos los posts' })
+
         }
     },
-    async getById(req, res, next) {
+    async getById(req, res) {
         try {
             const post = await Post.findById(req.params._id)
-            res.send(post)
+            res.status(200).send(post)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'post traer id'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir el post por id' })
+
         }
     },
-    async getPostsByTitle(req, res, next) {
+    async getPostsByTitle(req, res) {
         try {
             if (req.params.title.length > 20) {
                 return res.status(400).send('Búsqueda demasiado larga')
@@ -61,20 +61,18 @@ const PostController = {
 
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'post traer por nombre'
-            next(error)
+            res.status(500).send({ message: 'No se pudo conseguir el post por título' })
+
         }
     },
-    async update(req, res, next) {
+    async update(req, res) {
         try {
             if (req.file) req.body.img = req.file.filename
             const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true })
-
-            res.send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
+            res.status(201).send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
-            error.origin = 'post modificar'
-            next(error)
+            res.status(500).send({ message: 'No se pudo modificar el post' })
         }
     },
     async like(req, res) {
@@ -88,7 +86,7 @@ const PostController = {
                 await User.findByIdAndUpdate(
                     req.user._id, { $push: { favList: req.params._id } }, { new: true }
                 );
-                res.send(post);
+                res.status(201).send(post);
             } else {
                 res.status(400).send({ message: 'No te infles a likes bro :(' })
             }
@@ -102,14 +100,13 @@ const PostController = {
         try {
             const existPost = await Post.findById(req.params._id)
             if (existPost.likes.includes(req.user._id)) {
-                const post = await Post.findByIdAndUpdate(
+                await Post.findByIdAndUpdate(
                     req.params._id, { $pull: { likes: req.user._id } }, { new: true }
                 );
-
                 await User.findByIdAndUpdate(
                     req.user._id, { $pull: { favList: req.params._id } }, { new: true }
                 );
-                res.send({ message: 'Dislike hecho con éxito!' });
+                res.status(201).send({ message: 'Dislike hecho con éxito!' });
             } else {
                 res.status(400).send({ message: 'No tiene likes ya :(' })
             }
@@ -123,7 +120,7 @@ const PostController = {
         try {
             const post = await Post.findByIdAndDelete(req.params._id)
             await Comment.deleteMany({ postId: req.params._id })
-            res.send({ message: `Post con id ${req.params._id} ha sido borrado`, post })
+            res.status(200).send({ message: `Post con id ${req.params._id} ha sido borrado`, post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el post' })
