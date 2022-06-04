@@ -93,7 +93,7 @@ const UserController = {
             if (user.length === 0) {
                 res.status(404).send('Ningún username coincide con tu búsqueda :(')
             } else {
-                res.status(200).send(user);
+                res.status(200).send({ Followers: user[0].followers.length, Following: user[0].following.length, Number_of_posts: user[0].postsId.length, user });
             }
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -104,10 +104,13 @@ const UserController = {
 
     async getAllInfoUsers(req, res, next) {
         try {
-            const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1 })
-                .populate({ path: 'postsId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
+            const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1, followers: 1, following: 1, postsId: 1 })
+                .populate({ path: 'postsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'commentsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
                 .populate('favList')
-            res.send(users)
+            const listUsers = users.map(user => {
+                return { Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user }
+            })
+            res.send(listUsers)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'usuarios posts/comments'
@@ -117,8 +120,10 @@ const UserController = {
     async getUserPostComments(req, res, next) {
         try {
             const users = await User.findById(req.user._id)
-                .populate({ path: 'postsId', populate: { path: 'commentsId', populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
-                .populate('favList')
+                .populate({ path: 'postsId', select: { title: 1, body: 1 }, populate: { path: 'commentsId', select: { title: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
+                .populate('favList', ['title', 'body', 'img'])
+                .select('username')
+
             res.send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
