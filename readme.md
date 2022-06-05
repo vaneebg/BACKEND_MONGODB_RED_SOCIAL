@@ -272,6 +272,7 @@ Quitar like a un comentario
 ## :cinema: Inspiración 
 La idea principal con la que he construido este proyecto es intentar emular lo máximo posible algunas de las redes sociales más de moda. Por ello, se ha intentado implementar los campos que normalmente se rellenan en este tipo de aplicaciones con las funcionalidades que permiten. Por ejemplo, un mismo usuario puede darse like a sus publicaciones o comentarios, sin embargo, no podría seguirse a sí mismo.
 Siguiendo este desarrollo, se ha montado un backend con NodeJS utilizando MongoDB junto con su ODM Mongoose.
+
 --------------- 
 # :books: Documentacion de API :books:
 Se ha utilizado Postman para ir probando cada uno de los endpoints creados para diversas funciones. Además, se ha aprovechado una funcionalidad en postman: en la categoría environments, se han añadido dos: deploy y develop. El objetivo de esto es coger la url de localhost para develop, y la url que ya nos proporciona Heroku en deploy una vez hemos desplegado la API en heroku.
@@ -308,7 +309,7 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 
 -----------------------------
 # :pager: _**Endpoints**_ :pager:
-# :relaxed: Usuarios
+#  Usuarios :relaxed:
 
 ## Registrarse
 
@@ -1042,7 +1043,7 @@ Respuesta:
 }
 ```
 -----------------------
-# :clipboard: Posts
+#  Posts :clipboard:
 
 ## Crear post
 **(Registrado) POST** - `{{url}}/posts` 
@@ -1357,7 +1358,7 @@ Respuesta:
 }
 ````
 ----------------
-# :love_letter: Comentarios
+#  Comentarios :love_letter:
 
 ## Crear comentario
 
@@ -1625,7 +1626,10 @@ En este caso, pese a que lo habíamos utilizado ya antes, las nuevas restriccion
 ------------------------------
 
 # :purple_heart: Agradecimientos :purple_heart:
-A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos :D.
+A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos :smile:.
+
+----------------
+
 # :black_nib: Futuras implementaciones :black_nib:
 
 - [ ] Implementación de frontend
@@ -1636,10 +1640,12 @@ A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Ge
 
 - [ ] Implementar Multer por carpetas, separando avatars, de imágenes posts e imágenes comentarios.
 
+----------------------
+
 # :raised_hands: Autor :raised_hands:
 
 
-- :smiling_imp: [Vanesa](https://github.com/vaneebg)
+- :smiling_imp: [Vanesa Beltrán](https://github.com/vaneebg)
 
 
 
