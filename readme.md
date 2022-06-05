@@ -561,7 +561,7 @@ Body:
 ```
 ---------------------
 ## Seguir usuarios
-**(Registrado) PUT** - `{{url}}/users/username/ma`
+**(Registrado) PUT** - `{{url}}/users/followUser/629c8cedca6a2c1589628746`
 
 Endpoint que sirve para empezar a seguir a un usuario. En la respuesta, primero te muestra al usuario que has seguido(nuevo follower), y después al usuario en linea que le ha dado a seguir(nuevo following).
 
@@ -619,7 +619,375 @@ Body:
 }
 ```
 -----------------------
+## Dejar de seguir a usuarios
+**(Registrado) PUT** - `{{url}}/users/unfollowUser/629c8cedca6a2c1589628746`
 
+Endpoint que sirve para dejar de seguir a un usuario. En la respuesta, primero te muestra al usuario que has dejado de seguir(quitar follower), y después al usuario en linea que le ha dado a dejar de seguir(quitar following).
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Body:
+```JSON
+{
+    "message": "El usuario al que ahora ya no sigues ",
+    "user": {
+        "_id": "629c8cedca6a2c1589628746",
+        "username": "Pepito",
+        "age": 34,
+        "email": "aschadenz_v417l@yefx.info",
+        "confirmed": true,
+        "postsId": [],
+        "favList": [],
+        "favComments": [],
+        "commentsId": [],
+        "following": [],
+        "followers": [
+            "629c8a1263f7eecbbc87bd09"
+        ],
+        "img": "1654426861001-146022.png",
+        "role": "user"
+    },
+    "user2": {
+        "_id": "629c919ab3bdb962c5482377",
+        "username": "Ana",
+        "age": 30,
+        "email": "nadia42u_r53q@yefx.info",
+        "confirmed": true,
+        "postsId": [
+            "629c91eeb3bdb962c548237e",
+            "629c91fdb3bdb962c5482382"
+        ],
+        "favList": [],
+        "favComments": [
+            "629c8df9ca6a2c158962874d",
+            "629c8e35b3bdb962c5482365"
+        ],
+        "commentsId": [
+            "629c9225b3bdb962c5482386"
+        ],
+        "following": [],
+        "followers": [],
+        "img": "1654428057941-PngItem_1300380-1.png",
+        "role": "user"
+    }
+}
+```
+-------------------------
+## Modificar usuario
+**(Registrado) PUT** - `{{url}}/users/modifyUser` 
+- Aquí además, en la ruta debemos añadir:
+`````
+upload.single('upload'), 
+`````
+- de forma que en este caso se quedaría así:
+```
+router.put('/modifyUser', authentication, upload.single('upload'), UserController.update)
+````
+Esto nos permite usar el midleware Multer para poder adjuntar una imagen con cada usuario. Este endpoint sirve para modificar al usuario que está en línea. Al usar Multer, es necesario poner la información dentro del Body, pero en form-data:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Body:
+| KEY | VALUE |
+| --- | --- |
+| username | cambiadoo manolo |
+| password | test2 |
+| upload| 03.jpg |
+
+
+
+Respuesta:
+```JSON
+{
+    "message": "User con id 629c919ab3bdb962c5482377 modificado con éxito",
+    "user": {
+        "_id": "629c919ab3bdb962c5482377",
+        "username": "cambiadoo manolo",
+        "age": 30,
+        "email": "nadia42u_r53q@yefx.info",
+        "confirmed": true,
+        "postsId": [
+            "629c91eeb3bdb962c548237e",
+            "629c91fdb3bdb962c5482382"
+        ],
+        "favList": [],
+        "favComments": [
+            "629c8df9ca6a2c158962874d",
+            "629c8e35b3bdb962c5482365"
+        ],
+        "commentsId": [
+            "629c9225b3bdb962c5482386"
+        ],
+        "following": [
+            "629c8cedca6a2c1589628746"
+        ],
+        "followers": [],
+        "img": "03.jpg",
+        "role": "user"
+    }
+}
+```
+---------------------
+## Borrar usuario
+**(Registrado) DELETE** - `{{url}}/users/yourUserDelete` 
+
+Endpoint para que el usuario que está en linea se pueda borrar de la res social, junto con sus posts y comentarios.
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+
+Respuesta:
+```JSON
+{
+    "message": "Tu usuario borrar ha sido borrado",
+    "user": {
+        "_id": "629cd4044a18db04f9eef98a",
+        "username": "borrar",
+        "age": 30,
+        "email": "agradyi_d894g@yefx.info",
+        "confirmed": true,
+        "postsId": [
+            "629cd66d4a18db04f9eef991",
+            "629cd6744a18db04f9eef995"
+        ],
+        "favList": [],
+        "favComments": [],
+        "commentsId": [
+            "629cd6854a18db04f9eef999"
+        ],
+        "following": [],
+        "followers": [],
+        "role": "user"
+    }
+}
+```
+--------------------
+## Mostrar usuarios conectados
+**(Admin) GET** - `{{url}}/users/` 
+
+
+Este endpoint nos permite ver, siempre que seamos Admin, todos los usuarios registrados en nuestra red social, hayan confirmado el email o aún no.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+```JSON
+[
+    {
+        "_id": "629c899e63f7eecbbc87bd03",
+        "username": "EL ADMIN",
+        "email": "kaci79z_y604x@yefx.info",
+        "confirmed": true,
+        "img": "1654426014347-businesscostumemalemanofficeusericon-1320196264882354682.png"
+    },
+    {
+        "_id": "629c8a1263f7eecbbc87bd09",
+        "username": "Maria",
+        "email": "zlebsackz_v167l@yefx.info",
+        "confirmed": false,
+        "img": "1654426129501-flat-faces-icons-circle-16.png"
+    },
+    ...
+]
+```
+----------------------
+## Mostrar usuarios en linea
+**(Admin) GET** - `{{url}}/users/allconnects` 
+
+
+Este endpoint nos permite ver, siempre que seamos Admin, todos los usuarios en linea en nuestra red social.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+```JSON
+[
+    {
+        "_id": "629c899e63f7eecbbc87bd03",
+        "username": "EL ADMIN",
+        "email": "kaci79z_y604x@yefx.info"
+    },
+    {
+        "_id": "629c8a1263f7eecbbc87bd09",
+        "username": "Maria",
+        "email": "zlebsackz_v167l@yefx.info"
+    },
+    {
+        "_id": "629c8cedca6a2c1589628746",
+        "username": "Pepito",
+        "email": "aschadenz_v417l@yefx.info"
+    },
+    {
+        "_id": "629c919ab3bdb962c5482377",
+        "username": "cambiadoo manolo",
+        "email": "nadia42u_r53q@yefx.info"
+    }
+]
+```
+
+-----------------------
+## Mostrar usuarios en linea con todos sus posts/comment
+**(Admin) GET** - `{{url}}/users/usersPostsComments` 
+
+
+Este endpoint nos permite ver, siempre que seamos Admin, todos los usuarios en linea en nuestra red social, conjuntamente con sus posts y comentarios, es decir, toda la info de cada usuario.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+```JSON
+[
+    {
+        "Followers": 0,
+        "Following": 0,
+        "Number_of_posts": 0,
+        "user": {
+            "_id": "629c899e63f7eecbbc87bd03",
+            "username": "EL ADMIN",
+            "email": "kaci79z_y604x@yefx.info",
+            "confirmed": true,
+            "postsId": [],
+            "favList": [],
+            "following": [],
+            "followers": [],
+            "img": "1654426014347-businesscostumemalemanofficeusericon-1320196264882354682.png"
+        }
+    },
+    {
+        "Followers": 0,
+        "Following": 1,
+        "Number_of_posts": 2,
+        "user": {
+            "_id": "629c8a1263f7eecbbc87bd09",
+            "username": "Maria",
+            "email": "zlebsackz_v167l@yefx.info",
+            "confirmed": true,
+            "postsId": [
+                {
+                    "_id": "629c8be363f7eecbbc87bd17",
+                    "title": "PATATAAA",
+                    "body": "imagen genial",
+                    "img": "1654426595157-1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg",
+                    "commentsId": [
+                        {
+                            "_id": "629c8df9ca6a2c158962874d",
+                            "title": "menudo patatote",
+                            "body": "me encanta!!",
+                            "img": "1654427129621-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+                            "userId": {
+                                "_id": "629c8a1263f7eecbbc87bd09",
+                                "username": "Maria",
+                                "email": "zlebsackz_v167l@yefx.info",
+                                "img": "1654426129501-flat-faces-icons-circle-16.png"
+                            }
+                        },
+                        {
+                            "_id": "629c8e35b3bdb962c5482365",
+                            "title": "menudo patatotex2",
+                            "body": "me encanta!!",
+                            "img": "1654427189339-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+                            "userId": {
+                                "_id": "629c8a1263f7eecbbc87bd09",
+                                "username": "Maria",
+                                "email": "zlebsackz_v167l@yefx.info",
+                                "img": "1654426129501-flat-faces-icons-circle-16.png"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "_id": "629c8c21ca6a2c1589628741",
+                    "title": "yupiiiiii",
+                    "body": "wooooooow",
+                    "commentsId": [
+                        {
+                            "_id": "629c9225b3bdb962c5482386",
+                            "title": "*-*",
+                            "body": "como te divierteeees!!",
+                            "userId": {
+                                "_id": "629c919ab3bdb962c5482377",
+                                "username": "cambiadoo manolo",
+                                "email": "nadia42u_r53q@yefx.info",
+                                "img": "1654444920075-images.png"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "favList": [],
+            "following": [
+                "629c8cedca6a2c1589628746"
+            ],
+            "followers": [],
+            "img": "1654426129501-flat-faces-icons-circle-16.png"
+        }
+    },
+   ...
+    }
+]
+```
+---------------------
+## Borrar cualquier usuario
+**(Admin) DELETE** - `{{url}}/users/userId/629cd8144a18db04f9eef9a4` 
+
+Endpoint para que el admin pueda borrar cualquier usuario de la red social, junto con sus posts y comentarios. En parámetros se añade la id del usuario a borrar.
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+
+Respuesta:
+```JSON
+{
+    "message": "Usuario con id 629cd8144a18db04f9eef9a4 ha sido borrado",
+    "user": {
+        "_id": "629cd8144a18db04f9eef9a4",
+        "username": "Alonso",
+        "age": 22,
+        "email": "tyler11b_n598n@yefx.info",
+        "confirmed": true,
+        "postsId": [],
+        "favList": [],
+        "favComments": [],
+        "commentsId": [],
+        "following": [],
+        "followers": [],
+        "img": "1654446100466-PngItem_1300253.png",
+        "role": "user"
+    }
+}
+```
 # Posts
 
 ## Crear post
@@ -665,8 +1033,228 @@ Respuesta:
 }
 ```
 --------------------------------
+## Modificar post
 
+**(Registrado) PUT** - `{{url}}/posts/id/629cda3b4a18db04f9eef9b9` 
+
+Este endpoint nos permite modificar un post siempre que sea tuyo, introduciendo por parámetro la id del post que queremos cambiar:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Middleware Multer para poder adjuntar una imagen con cada nuevo comentario.  Al usar Multer, es necesario poner la información dentro del Body, pero en form-data, y en el campo upload, seleccionar tipo:File:
+
+Body:
+| KEY | VALUE |
+| --- | --- |
+|title | CAMBIAO|
+| body | lorem lorem |
+| upload| 03.jpg |
+```
+
+
+Respuesta:
+JSON
+```
+{
+    "message": "Post con id 629cda3b4a18db04f9eef9b9 modificado con éxito",
+    "post": {
+        "_id": "629cda3b4a18db04f9eef9b9",
+        "title": "CAMBIAO",
+        "body": "lorem lorem",
+        "userId": "629c919ab3bdb962c5482377",
+        "likes": [],
+        "commentsId": [],
+        "img": "03.jpg"
+    }
+}
+```
 --------------------------------
+## Borrar post
+
+**(Registrado) DELETE** - `{{url}}/posts/id/629cdb104a18db04f9eef9c0` 
+
+Este endpoint nos permite borrar un post siempre que sea tuyo, introduciendo por parámetro la id del post que queremos eliminar:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+
+Respuesta:
+JSON
+```
+{
+    "message": "Post con id 629cdb104a18db04f9eef9c0 ha sido borrado",
+    "post": {
+        "_id": "629cdb104a18db04f9eef9c0",
+        "title": "este lo borroo",
+        "body": "...",
+        "userId": "629c919ab3bdb962c5482377",
+        "likes": [],
+        "commentsId": []
+    }
+}
+```
+---------------------
+## Mostrar todos los post
+**(Registrado) GET** - `{{url}}/posts/?page=1`
+
+Endpoint que sirve para traer todos los post de la red social, junto con sus comentarios y el usuario que los hizo. El límite está en 10 posts para cada página.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Body:
+```JSON
+{
+    "Number_of_posts": 5,
+    "posts": [
+        {
+            "_id": "629c8be363f7eecbbc87bd17",
+            "title": "PATATAAA",
+            "body": "imagen genial",
+            "img": "1654426595157-1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg",
+            "userId": {
+                "_id": "629c8a1263f7eecbbc87bd09",
+                "username": "Maria",
+                "email": "zlebsackz_v167l@yefx.info"
+            },
+            "commentsId": [
+                {
+                    "_id": "629c8df9ca6a2c158962874d",
+                    "title": "menudo patatote",
+                    "body": "me encanta!!",
+                    "img": "1654427129621-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+                    "userId": {
+                        "_id": "629c8a1263f7eecbbc87bd09",
+                        "username": "Maria"
+                    },
+                    "postId": "629c8be363f7eecbbc87bd17",
+                    "likes": [
+                        "629c919ab3bdb962c5482377"
+                    ]
+                },
+                {
+                    "_id": "629c8e35b3bdb962c5482365",
+                    "title": "menudo patatotex2",
+                    "body": "me encanta!!",
+                    "img": "1654427189339-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+                    "userId": {
+                        "_id": "629c8a1263f7eecbbc87bd09",
+                        "username": "Maria"
+                    },
+                    "postId": "629c8be363f7eecbbc87bd17",
+                    "likes": [
+                        "629c919ab3bdb962c5482377"
+                    ]
+                }
+            ]
+        },
+        {
+            "_id": "629c8c21ca6a2c1589628741",
+            "title": "yupiiiiii",
+            "body": "wooooooow",
+            "userId": {
+                "_id": "629c8a1263f7eecbbc87bd09",
+                "username": "Maria",
+                "email": "zlebsackz_v167l@yefx.info"
+            },
+            "commentsId": [
+                {
+                    "_id": "629c9225b3bdb962c5482386",
+                    "title": "*-*",
+                    "body": "como te divierteeees!!",
+                    "userId": {
+                        "_id": "629c919ab3bdb962c5482377",
+                        "username": "cambiadoo manolo"
+                    },
+                    "postId": "629c8c21ca6a2c1589628741",
+                    "likes": []
+                }
+            ]
+        },
+        ...
+    ]
+}
+```
+----------------
+## Buscar post por id
+**(Registrado) GET** - `{{url}}/posts/id/629c8be363f7eecbbc87bd17`
+
+Endpoint que sirve para buscar post según su id(que introducimos por parámetro) de la red social, junto con sus comentarios. 
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Body:
+```JSON
+{
+    "_id": "629c8be363f7eecbbc87bd17",
+    "title": "PATATAAA",
+    "body": "imagen genial",
+    "img": "1654426595157-1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg",
+    "userId": "629c8a1263f7eecbbc87bd09",
+    "likes": [],
+    "commentsId": [
+        "629c8df9ca6a2c158962874d",
+        "629c8e35b3bdb962c5482365"
+    ]
+}
+```
+----------------
+## Buscar post por título
+**(Registrado) GET** - `{{url}}/posts/title/pat`
+
+Endpoint que sirve para buscar post según su título(que introducimos por parámetro) de la red social, junto con sus comentarios. 
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Body:
+```JSON
+[
+    {
+        "_id": "629c8be363f7eecbbc87bd17",
+        "title": "PATATAAA",
+        "body": "imagen genial",
+        "img": "1654426595157-1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg",
+        "commentsId": [
+            {
+                "_id": "629c8df9ca6a2c158962874d",
+                "title": "menudo patatote",
+                "body": "me encanta!!",
+                "img": "1654427129621-Descargar-imagen-inversa-740x493-1-scaled.jpg"
+            },
+            {
+                "_id": "629c8e35b3bdb962c5482365",
+                "title": "menudo patatotex2",
+                "body": "me encanta!!",
+                "img": "1654427189339-Descargar-imagen-inversa-740x493-1-scaled.jpg"
+            }
+        ]
+    }
+]
+```
+----------------
 # Comentarios
 
 ## Crear
@@ -709,6 +1297,165 @@ JSON
 }
 ```
 --------------------------------
+## Modificar comentario
+
+**(Registrado) PUT** - `{{url}}/comments/idcomment/629b80783ee6280273ac2cd3` 
+
+Este endpoint nos permite modificar un comentario introduciendo por parámetro la id del comentario sobre el que lo queremos hacer:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Middleware Multer para poder adjuntar una imagen con cada comentario.  Al usar Multer, es necesario poner la información dentro del Body, pero en form-data, y en el campo upload, seleccionar tipo:File:
+
+Body:
+| KEY | VALUE |
+| --- | --- |
+|title | modificaoooo|
+| body | wooooow |
+| upload| 03.jpg |
+```
+
+
+Respuesta:
+JSON
+```
+{
+    "message": "Comentario con id 629cde3b4a18db04f9eef9dc modificado con éxito",
+    "comment": {
+        "_id": "629cde3b4a18db04f9eef9dc",
+        "title": "modificaoooo",
+        "body": "woooow",
+        "img": "03.jpg",
+        "userId": "629c919ab3bdb962c5482377",
+        "postId": "629cde3b4a18db04f9eef9dc",
+        "likes": []
+    }
+}
+```
+--------------------------------
+## Borrar comentario
+
+**(Registrado) DELETE** - `{{url}}/comments/id/629cde3b4a18db04f9eef9dc` 
+
+Este endpoint nos permite borrar un comentario introduciendo por parámetro la id del comentario sobre el que lo queremos hacer:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+JSON
+```
+{
+    "message": "Comentario con id 629cde3b4a18db04f9eef9dc ha sido borrado",
+    "comment": {
+        "_id": "629cde3b4a18db04f9eef9dc",
+        "title": "modificaoooo",
+        "body": "woooow",
+        "img": "1654447733506-fotografia-reproducciones-fotograficas.jpg",
+        "userId": "629c919ab3bdb962c5482377",
+        "postId": "629cde3b4a18db04f9eef9dc",
+        "likes": []
+    }
+}
+```
+-----------------------
+## Mostrar por id comentario
+
+**(Registrado) GET** - `{{url}}/comments/id/629cdd214a18db04f9eef9d3` 
+
+Este endpoint nos permite buscar un comentario introduciendo por parámetro la id del comentario.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+JSON
+```
+{
+    "_id": "629cdd214a18db04f9eef9d3",
+    "title": "guau",
+    "body": "me encantó tu publi",
+    "img": "1654447393867-12871b6e8385373148359ec16391f60f.jpg",
+    "userId": "629c919ab3bdb962c5482377",
+    "postId": "629c8c21ca6a2c1589628741",
+    "likes": []
+}
+```
+-------------------
+## Mostrar todos los comentarios
+
+**(Admin) GET** - `{{url}}/comments/` 
+
+Este endpoint nos permite traer todos los comentarios, siempre que tengas credencial de Admin.
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+
+Respuesta:
+JSON
+```
+{
+    "Number_of_comments": 4,
+    "comments": [
+        {
+            "_id": "629c8df9ca6a2c158962874d",
+            "title": "menudo patatote",
+            "body": "me encanta!!",
+            "img": "1654427129621-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+            "userId": "629c8a1263f7eecbbc87bd09",
+            "postId": "629c8be363f7eecbbc87bd17",
+            "likes": [
+                "629c919ab3bdb962c5482377"
+            ]
+        },
+        {
+            "_id": "629c8e35b3bdb962c5482365",
+            "title": "menudo patatotex2",
+            "body": "me encanta!!",
+            "img": "1654427189339-Descargar-imagen-inversa-740x493-1-scaled.jpg",
+            "userId": "629c8a1263f7eecbbc87bd09",
+            "postId": "629c8be363f7eecbbc87bd17",
+            "likes": [
+                "629c919ab3bdb962c5482377"
+            ]
+        },
+        {
+            "_id": "629c9225b3bdb962c5482386",
+            "title": "*-*",
+            "body": "como te divierteeees!!",
+            "userId": "629c919ab3bdb962c5482377",
+            "postId": "629c8c21ca6a2c1589628741",
+            "likes": []
+        },
+        {
+            "_id": "629cdd214a18db04f9eef9d3",
+            "title": "guau",
+            "body": "me encantó tu publi",
+            "img": "1654447393867-12871b6e8385373148359ec16391f60f.jpg",
+            "userId": "629c919ab3bdb962c5482377",
+            "postId": "629c8c21ca6a2c1589628741",
+            "likes": []
+        }
+    ]
+}
+```
+-------------------
 ## Dar like a comentario
 **(Registrado) PUT** - `{{url}}/comments/likesComment/629c8df9ca6a2c158962874d` 
 
@@ -759,16 +1506,9 @@ Respuesta:
 
 # :bangbang: Retos presentados 
 
-## Tablas muchos a muchos
-Para poder relacionar correctamente la tabla de pedidos y productos era necesaria una tabla intermedia, ya que era una relación de muchos a muchos.
 
-
-Esta tabla tuvo una dificultad añadida ya que la documentación de Sequelize indicaba que la tabla se creaba automáticamente y no logramos hacerlo así. Tras este obstáculo, decidimos crear el modelo manualmente con las dos claves foráneas, añadiéndole además el apartado de amount.
-
-## Columnas adicionales en tablas intermedias
-A la hora de intentar introducir los datos en la tabla intermedia mediante el método `addXXX` de Sequelize, no nos permitía introducir este valor extra. Esto lo solucionamos generando un bucle que recorriese la solicitud, la cual entraba en forma de array. Esto creaba filas individualmente por cada elemento, con su propio atributo amount.
 # :purple_heart: Agradecimientos 
-A la lead instructor [Sofía](https://github.com/SofiaPinilla), y al TA [Germán](https://github.com/GeerDev) por ayudarnos en algunos momentos de crisis con algún que otro endpoint que se nos atravesó, además de algún crasheo inesperado.
+A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos :D.
 # :black_nib: En el tintero 
 
 - [ ] Implementación de frontend
@@ -780,10 +1520,7 @@ A la lead instructor [Sofía](https://github.com/SofiaPinilla), y al TA [Germán
     - [ ] Endpoint en el que el usuario pueda autoeliminarse.
     - [ ] Endpoint en el que el usuario pueda recibir los datos de su propia sesión
   
-# :couple: Autores 
-
-- :mushroom: [Mike](https://github.com/MrSetOne) 
-
+# :couple: Autor
 
 
 - :smiling_imp: [Vanesa](https://github.com/vaneebg)
