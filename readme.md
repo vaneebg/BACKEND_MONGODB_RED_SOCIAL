@@ -1,8 +1,8 @@
 
 
- #  <center>Proyecto Backend Mongo DB </center> 
+ #  <center> :name_badge: Proyecto Backend Mongo DB :name_badge: </center> 
 
- ## :bookmark: Indice 
+ ## :clipboard: Índice :clipboard:
 
  - [Sobre el proyecto](#sobre-el-proyecto)
 
@@ -42,11 +42,10 @@
 
 - [Autores](#autores)
 
-# :clipboard: Sobre el proyecto 
+# :bookmark_tabs: Sobre el proyecto :bookmark_tabs:
 
 
-
-## :bar_chart: Instalación y despliegue 
+## :nut_and_bolt: Instalación y despliegue :nut_and_bolt:
 Para el desarrollo de esta API se ha utilizado MongoDB junto con su ODM Mongoose mediante express en NodeJS.
 El proyecto se subirá a un repositorio público de GitHub.
 Para instalar este proyecto debes hacer lo siguiente: primero acceder desde github al repositorio y proceder a clonártelo con el siguiente comando:
@@ -77,7 +76,7 @@ Por último, procede a levantar el servidor con este comando:
 npm start
 ```
 
-## :nut_and_bolt: Tecnologias/packages utilizados 
+## :wrench: Tecnologias/packages utilizados :wrench:
 - Javascript
 - MongoDB
 - Node
@@ -89,7 +88,7 @@ npm start
 - Multer
 - Postman
 
-## :dart: Origen 
+## :dart: Origen :dart:
 Es un proyecto de backend de la academia The Brigde para asentar conocimientos en todo el terreno de base de datos no relacionales con MongoDB conjuntamente con Node+Express y el ODM que utilizaremos: Mongoose. Ha consistido en desarrollar la base de datos de una red social conjuntamente con sus funcionalidades: tener seguidores, dar likes a posts o comentarios, etc.
 
 
@@ -100,7 +99,7 @@ Para organizar el trabajo, se ha hecho uso de Trello para dividir las tareas y t
 ![foto](/uploadsreadme/Sin%20trello.png)
 
  
-## :checkered_flag: Objetivos 
+## :pushpin: Objetivos :pushpin:
 Una vez analizadas las necesidades del proyecto, se espera
 que el alumno desarrolle una API REST que sea capaz de lo siguiente:
 
@@ -262,14 +261,46 @@ Dar un like a un comentario
 Quitar like a un comentario
 
 
-## :heart_decoration: Origen de la idea
+## :cinema: Origen de la idea :cinema:
 La idea principal con la que he construido este proyecto es intentar emular lo máximo posible algunas de las redes sociales más de moda. Por ello, se ha intentado implementar los campos que normalmente se rellenan en este tipo de aplicaciones con las funcionalidades que permiten. Por ejemplo, un mismo usuario puede darse like a sus publicaciones o comentarios, sin embargo, no podría seguirse a sí mismo.
 Siguiendo este desarrollo, se ha montado un backend con NodeJS utilizando MongoDB junto con su ODM Mongoose.
 
-# :books: Documentacion de API 
+# :books: Documentacion de API :books:
 Se ha utilizado Postman para ir probando cada uno de los endpoints creados para diversas funciones. Además, se ha aprovechado una funcionalidad en postman: en la categoría environments, se han añadido dos: deploy y develop. El objetivo de esto es coger la url de localhost para develop, y la url que ya nos proporciona Heroku en deploy una vez hemos desplegado la API en heroku.
 ![foto](/uploadsreadme/psotman.png)
-# Usuarios
+
+---------------
+# :ballot_box_with_check: Validaciones hechas en el proyecto :ballot_box_with_check:
+- Usuario: 
+  - Su email debe ser único
+  - Obligatorio rellenar username, password, email y edad.
+  - Imagen opcional.
+  - Un usuario no se puede seguir a sí mismo.
+  - Un usuario no puede seguir a alguien que esté registrado pero aún no haya confirmado su email.
+
+- Posts
+  - Obligatorio introducir título y body del post.
+  - Imagen opcional.
+  - Solo le puedes dar like al post una vez. No se acumulan likes del mismo usuario.
+
+- Comentarios
+  - Obligatorio introducir título y body del comentario.
+  - Imagen opcional.
+   - Solo le puedes dar like al comentario una vez. No se acumulan likes del mismo usuario.
+-------------------
+# :bowtie: Función del administrador :bowtie:
+- Usuarios: 
+  - Obtener toda la información de los usuarios, junto con todos sus posts y comentarios.
+  - Obtener todos los usuarios registrados en la página(incluyendo los que no confirman email)
+  - Obtener los usuarios en línea.
+  - Borrar cualquier usuario.
+
+- Comentarios
+  - Obtener todos los comentarios hechos en la red social
+
+-----------------------------
+# :pager: _**Endpoints**_ :pager:
+# :relaxed: Usuarios
 
 ## Registrarse
 
@@ -1002,7 +1033,8 @@ Respuesta:
     }
 }
 ```
-# Posts
+-----------------------
+# :clipboard: Posts
 
 ## Crear post
 **(Registrado) POST** - `{{url}}/posts` 
@@ -1311,12 +1343,13 @@ Header:
 | authorization | Token |
 
 Respuesta:
+````
 {
     "message": "Dislike hecho con éxito!"
 }
-```
+````
 ----------------
-# Comentarios
+# :love_letter: Comentarios
 
 ## Crear
 
@@ -1356,46 +1389,7 @@ JSON
     }
 }
 ```
---------------------------------
-## Crear comentario
 
-**(Registrado) POST** - `{{url}}/comments/idpost/629c8c21ca6a2c1589628741` 
-
-Este endpoint nos permite crear un comentario introduciendo por parámetro la id del post sobre el que lo queremos hacer:
-
-Header:
-
-| KEY | VALUE |
-| --- | --- |
-| authorization | Token |
-
-Middleware Multer para poder adjuntar una imagen con cada comentario.  Al usar Multer, es necesario poner la información dentro del Body, pero en form-data, y en el campo upload, seleccionar tipo:File:
-
-Body:
-| KEY | VALUE |
-| --- | --- |
-|title | qué guay!|
-| body | wooooow |
-| upload| 03.jpg |
-
-
-
-Respuesta:
-JSON
-```
-{
-    "message": "Se creó tu comentario!",
-    "comment": {
-        "title": "qué guay",
-        "body": "wow",
-        "img": "03.jpg",
-        "userId": "629c899e63f7eecbbc87bd03",
-        "postId": "629c8c21ca6a2c1589628741",
-        "likes": [],
-        "_id": "629ce5202b39473647e7249c"
-    }
-}
-```
 -----------------------
 ## Modificar comentario
 
@@ -1601,25 +1595,38 @@ Respuesta:
 ````
 {{url}}/comments/dislikesComment/629c8e35b3bdb962c5482365
 ````
+-------------------
 
+# :dart: Retos presentados :dart:
+ ## Borrar en cascada
+ Fue importante un buen entendimiento de los parámetros y qué se necesitaba para que cuando un usuario se borrase, todo su contenido fuese igual. Lo mismo sucede al borrar un post, todos sus comentarios se borran también de la base de datos.
 
-# :bangbang: Retos presentados 
+ ## Manejo de relación de documentos
+Al utilizar ahora una base de datos no relacional, había que adaptar los conocimientos que teníamos de sequelize con include, para ponerlos aquí mediante el método de populate. Además, rellenar cada modelo con un array de elementos, en el caso por ejemplo de que un usuario puede tener varios post, al igual que un post solo podría pertenecer a un usuario, por lo que en esta relación no había array, sino un objeto solamente.
 
+## Validaciones
+Tener en cuenta qué acciones te permite realizar una red social y cuáles no. Por ejemplo, un usuario sí puede darle like a su propio post, sin embargo no se puede seguir a sí mismo. Además, restringir los likes a uno solo, con el objetivo de evitar que un mismo usuario pueda llenar del mismo like a un post.
 
-# :purple_heart: Agradecimientos 
+## Uso de heroku
+Aprender a desplegar una API mediante el uso de Heroku como herramienta nueva.
+
+## Uso de nodemailer
+En este caso, pese a que lo habíamos utilizado ya antes, las nuevas restricciones de google para las cuentas de gmail, han hecho que tngamos varios problemas. Finalmente, se cambió la configuración de nodemailer para que acepte correos de outlook y poder trabajar desde ahí.
+------------------------------
+
+# :purple_heart: Agradecimientos :purple_heart:
 A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos :D.
-# :black_nib: En el tintero 
+# :black_nib: Futuras implementaciones :black_nib:
 
 - [ ] Implementación de frontend
-- [ ] Añadir validaciones extra, por ejemplo, validación de password con RegEx
+
+- [ ] Ampliar las funciones del admin en la red social, por ejemplo, borrar cualquier post.
+
 - [ ] Sistema de testing con Jest
-- [ ] Implementación de sistema de stock de productos
-- [ ] Implementación del sistema "cesta" previo al pedido
-- [ ] Añadir endpoints
-    - [ ] Endpoint en el que el usuario pueda autoeliminarse.
-    - [ ] Endpoint en el que el usuario pueda recibir los datos de su propia sesión
-  
-# :couple: Autor
+
+- [ ] Implementar Multer por carpetas, separando avatars, de imágenes posts e imágenes comentarios.
+
+# :raised_hands: Autor :raised_hands:
 
 
 - :smiling_imp: [Vanesa](https://github.com/vaneebg)
