@@ -1,51 +1,59 @@
 
 
- #  <center> :name_badge: Proyecto Backend Mongo DB :name_badge: </center> 
+ #  <center> :european_castle: Proyecto Backend Mongo DB :european_castle: </center> 
 
  ## :clipboard: Índice :clipboard:
 
- - [Sobre el proyecto](#sobre-el-proyecto)
+ - [Sobre el proyecto](#bookmarktabs-sobre-el-proyecto-bookmarktabs)
 
-    - [Instalación y despliegue](#instalacion-y-despliegue)
+    - [Instalación y despliegue](#nutandbolt-instalación-y-despliegue)
 
-    - [Tecnologías utilizadas](#tecnologias-utilizadas)
+    - [Tecnologías utilizadas](#wrench-tecnologiaspackages-utilizados)
 
-    - [Origen](#origen)
+    - [Origen](#dart-origen)
 
-    - [Objetivos](#objetivos)
+    - [Objetivos](#pushpin-objetivos)
 
-    - [Concepto e inspiración](#concepto-e-inspiración)
+    - [Inspiración](#cinema-inspiración)
 
-- [Documentacion de API](#documentacion-de-api)
+- [Documentacion de API](#books-documentacion-de-api-books)
 
-    - [Usuarios](#usuarios)
+    - [Validaciones](#ballotboxwithcheck-validaciones-hechas-en-el-proyecto-ballotboxwithcheck)
 
-    - [Pedidos](#pedidos)
+    - [Función admin](#bowtie-función-del-administrador-bowtie)
 
-    - [Productos](#productos)
+    - [Endpoints](#11-endpoints)
 
-    - [Categorias](#categorias)
+      - [Usuarios](#registrarse)
 
-    - [Sets](#sets)
+      - [Posts](#crear)
 
-    - [Reseñas](#reseñas)
+      - [Comentarios](#crear-comentario)
 
-- [Retos presentados](#retos-presentados)
 
-    - [Tablas muchos a muchos](#tablas-muchos-a-muchos)
+- [Retos presentados](#dart-retos-presentados-dart)
 
-    - [Columnas adicionales en tablas intermedias](#columnas-adicionales-en-tablas-intermedias)
+    - [Borrar en cascada](#borrar-en-cascada)
+
+    - [Manejo de relación de documentos](#manejo-de-relación-de-documentos)
+    
+    - [Validaciones](#validaciones)
+
+    - [Uso de heroku](#uso-de-heroku)
+
+    - [Nodemailer](#uso-de-nodemailer)
+
 
 - [Agradecimientos](#agradecimientos)
 
-- [En el tintero](#en-el-tintero)
+- [Futuras implementaciones](#blacknib-futuras-implementaciones-blacknib)
 
-- [Autores](#autores)
+- [Autor](#raisedhands-autor-raisedhands)
 
 # :bookmark_tabs: Sobre el proyecto :bookmark_tabs:
 
 
-## :nut_and_bolt: Instalación y despliegue :nut_and_bolt:
+## :nut_and_bolt: Instalación y despliegue 
 Para el desarrollo de esta API se ha utilizado MongoDB junto con su ODM Mongoose mediante express en NodeJS.
 El proyecto se subirá a un repositorio público de GitHub.
 Para instalar este proyecto debes hacer lo siguiente: primero acceder desde github al repositorio y proceder a clonártelo con el siguiente comando:
@@ -76,7 +84,7 @@ Por último, procede a levantar el servidor con este comando:
 npm start
 ```
 
-## :wrench: Tecnologias/packages utilizados :wrench:
+## :wrench: Tecnologias/packages utilizados 
 - Javascript
 - MongoDB
 - Node
@@ -88,7 +96,7 @@ npm start
 - Multer
 - Postman
 
-## :dart: Origen :dart:
+## :dart: Origen 
 Es un proyecto de backend de la academia The Brigde para asentar conocimientos en todo el terreno de base de datos no relacionales con MongoDB conjuntamente con Node+Express y el ODM que utilizaremos: Mongoose. Ha consistido en desarrollar la base de datos de una red social conjuntamente con sus funcionalidades: tener seguidores, dar likes a posts o comentarios, etc.
 
 
@@ -99,7 +107,7 @@ Para organizar el trabajo, se ha hecho uso de Trello para dividir las tareas y t
 ![foto](/uploadsreadme/Sin%20trello.png)
 
  
-## :pushpin: Objetivos :pushpin:
+## :pushpin: Objetivos 
 Una vez analizadas las necesidades del proyecto, se espera
 que el alumno desarrolle una API REST que sea capaz de lo siguiente:
 
@@ -261,10 +269,10 @@ Dar un like a un comentario
 Quitar like a un comentario
 
 
-## :cinema: Origen de la idea :cinema:
+## :cinema: Inspiración 
 La idea principal con la que he construido este proyecto es intentar emular lo máximo posible algunas de las redes sociales más de moda. Por ello, se ha intentado implementar los campos que normalmente se rellenan en este tipo de aplicaciones con las funcionalidades que permiten. Por ejemplo, un mismo usuario puede darse like a sus publicaciones o comentarios, sin embargo, no podría seguirse a sí mismo.
 Siguiendo este desarrollo, se ha montado un backend con NodeJS utilizando MongoDB junto con su ODM Mongoose.
-
+--------------- 
 # :books: Documentacion de API :books:
 Se ha utilizado Postman para ir probando cada uno de los endpoints creados para diversas funciones. Además, se ha aprovechado una funcionalidad en postman: en la categoría environments, se han añadido dos: deploy y develop. El objetivo de esto es coger la url de localhost para develop, y la url que ya nos proporciona Heroku en deploy una vez hemos desplegado la API en heroku.
 ![foto](/uploadsreadme/psotman.png)
@@ -1351,7 +1359,7 @@ Respuesta:
 ----------------
 # :love_letter: Comentarios
 
-## Crear
+## Crear comentario
 
 **(Registrado) POST** - `{{url}}/comments/idpost/629c8be363f7eecbbc87bd17` 
 
@@ -1612,6 +1620,8 @@ Aprender a desplegar una API mediante el uso de Heroku como herramienta nueva.
 
 ## Uso de nodemailer
 En este caso, pese a que lo habíamos utilizado ya antes, las nuevas restricciones de google para las cuentas de gmail, han hecho que tngamos varios problemas. Finalmente, se cambió la configuración de nodemailer para que acepte correos de outlook y poder trabajar desde ahí.
+
+
 ------------------------------
 
 # :purple_heart: Agradecimientos :purple_heart:
@@ -1622,7 +1632,7 @@ A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Ge
 
 - [ ] Ampliar las funciones del admin en la red social, por ejemplo, borrar cualquier post.
 
-- [ ] Sistema de testing con Jest
+- [ ] Sistema de testing con Jest.
 
 - [ ] Implementar Multer por carpetas, separando avatars, de imágenes posts e imágenes comentarios.
 
