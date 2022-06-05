@@ -1338,7 +1338,6 @@ Body:
 |title | menudo patatote x2|
 | body | me encanta!! |
 | upload| 03.jpg |
-```
 
 
 Respuesta:
@@ -1358,6 +1357,46 @@ JSON
 }
 ```
 --------------------------------
+## Crear comentario
+
+**(Registrado) POST** - `{{url}}/comments/idpost/629c8c21ca6a2c1589628741` 
+
+Este endpoint nos permite crear un comentario introduciendo por parámetro la id del post sobre el que lo queremos hacer:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Middleware Multer para poder adjuntar una imagen con cada comentario.  Al usar Multer, es necesario poner la información dentro del Body, pero en form-data, y en el campo upload, seleccionar tipo:File:
+
+Body:
+| KEY | VALUE |
+| --- | --- |
+|title | qué guay!|
+| body | wooooow |
+| upload| 03.jpg |
+
+
+
+Respuesta:
+JSON
+```
+{
+    "message": "Se creó tu comentario!",
+    "comment": {
+        "title": "qué guay",
+        "body": "wow",
+        "img": "03.jpg",
+        "userId": "629c899e63f7eecbbc87bd03",
+        "postId": "629c8c21ca6a2c1589628741",
+        "likes": [],
+        "_id": "629ce5202b39473647e7249c"
+    }
+}
+```
+-----------------------
 ## Modificar comentario
 
 **(Registrado) PUT** - `{{url}}/comments/idcomment/629b80783ee6280273ac2cd3` 
@@ -1378,7 +1417,6 @@ Body:
 |title | modificaoooo|
 | body | wooooow |
 | upload| 03.jpg |
-```
 
 
 Respuesta:
