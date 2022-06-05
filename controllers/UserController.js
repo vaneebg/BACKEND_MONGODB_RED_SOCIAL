@@ -55,7 +55,7 @@ const UserController = {
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
             await user.save();
-            res.status(200).send({ message: 'Bienvenidx a nuestra suuuper red social ' + user.username + '!!' });
+            res.status(200).send({ message: 'Bienvenidx a nuestra suuuper red social ' + user.username + '!!', user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'No se pudo conectar' })

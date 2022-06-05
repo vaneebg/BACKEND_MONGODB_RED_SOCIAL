@@ -11,7 +11,7 @@ const PostController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { postsId: post._id }
             });
-            res.status(201).send(post)
+            res.status(201).send({ message: 'se creó el post correctamente', post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             error.origin = 'post crear'

@@ -14,7 +14,7 @@ const CommentController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { commentsId: comment._id },
             });
-            res.status(201).send(comment)
+            res.status(201).send({ message: 'Se creó tu comentario!', comment })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             console.error(error)
@@ -73,7 +73,7 @@ const CommentController = {
                 await User.findByIdAndUpdate(
                     req.user._id, { $push: { favComments: req.params._id } }, { new: true }
                 );
-                res.status(201).send(comment);
+                res.status(201).send({ message: 'Le diste like!', comment });
             } else {
                 res.status(400).send({ message: 'No te infles a likes en el comentario bro :(' })
             }
