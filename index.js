@@ -1,19 +1,20 @@
 const express = require("express");
+const { dbConnection } = require("./config/config")
+const colors = require('colors/safe');
+const { typeError } = require('./middlewares/errors');
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
-const { dbConnection } = require("./config/config")
-app.use(express.json())
-dbConnection()
-app.use(express.static('./uploads'));
-const colors = require('colors/safe');
-const { typeError } = require('./middlewares/errors');
 
+app.use(express.json())
+app.use(typeError)
+dbConnection()
+
+app.use(express.static('./uploads'));
 
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
 app.use('/comments', require('./routes/comments'));
 
-app.use(typeError)
 
 app.listen(PORT, console.log(colors.rainbow(`Server started on port ${PORT}`)));
