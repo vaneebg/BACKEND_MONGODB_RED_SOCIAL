@@ -103,14 +103,28 @@ Para organizar el trabajo, se ha hecho uso de Trello para dividir las tareas y t
 ## :checkered_flag: Objetivos 
 Una vez analizadas las necesidades del proyecto, se espera
 que el alumno desarrolle una API REST que sea capaz de lo siguiente:
+
+
 [X] Registro de usuarios usando Bcrypt.
+
+
 [X] Login de usuarios + token + middleware.
+
+
 [X] Que sea capaz de crear un CRUD.
+
+
 [X] Dar/quitar Like a post.
+
+
 [X] Backend disponible en producción (Heroku).
 
 Requisitos imprescindibles del proyecto:
+
+
 [X]  Uso de ramas con git, cuando se termine el proyecto deberán quedar dos ramas la master o main y la develop.
+
+
 [X]  Presentación de README excelente.
 
 ## 1.1. Endpoints
@@ -1073,6 +1087,7 @@ JSON
 }
 ```
 --------------------------------
+
 ## Borrar post
 
 **(Registrado) DELETE** - `{{url}}/posts/id/629cdb104a18db04f9eef9c0` 
@@ -1253,6 +1268,52 @@ Body:
         ]
     }
 ]
+```
+----------------
+## Dar like a post
+**(Registrado) PUT** - `{{url}}/posts/likes/629c91fdb3bdb962c5482382` 
+
+Este endpoint nos permite dar like a un post introduciendo por parámetro la id del post sobre el que queremos poner el like:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Respuesta:
+JSON
+```
+{
+    "message": "Se dió like correctamente!",
+    "post": {
+        "_id": "629c91fdb3bdb962c5482382",
+        "title": "Aprendiendo",
+        "body": "viendo este red social!!",
+        "userId": "629c919ab3bdb962c5482377",
+        "likes": [
+            "629c899e63f7eecbbc87bd03"
+        ],
+        "commentsId": []
+    }
+}
+```
+------------------------
+## Dar dislike a post
+**(Registrado) PUT** - `{{url}}/posts/dislikes/629c91fdb3bdb962c5482382` 
+
+Este endpoint nos permite quitar like a un post introduciendo por parámetro la id del post sobre el que queremos hacerlo:
+
+Header:
+
+| KEY | VALUE |
+| --- | --- |
+| authorization | Token |
+
+Respuesta:
+{
+    "message": "Dislike hecho con éxito!"
+}
 ```
 ----------------
 # Comentarios

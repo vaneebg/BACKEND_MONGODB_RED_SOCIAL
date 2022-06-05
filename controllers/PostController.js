@@ -86,7 +86,7 @@ const PostController = {
                 await User.findByIdAndUpdate(
                     req.user._id, { $push: { favList: req.params._id } }, { new: true }
                 );
-                res.status(201).send(post);
+                res.status(201).send({ message: 'Se dió like correctamente!', post });
             } else {
                 res.status(400).send({ message: 'No te infles a likes bro :(' })
             }
