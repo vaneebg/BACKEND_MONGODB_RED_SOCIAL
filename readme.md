@@ -309,6 +309,64 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 
 -----------------------------
 # :pager: _**Endpoints**_ :pager:
+
+
+ <center><b> Usuarios </b></center>
+
+
+
+
+| MÉTODO | ROL| ENDPOINT | LINK |
+| --- | --- | --- | --- |
+| POST | Público |{{url}}/users | [Link al endpoint](#registrarse) |
+| GET | Registrado | {{url}}/users/login | [Link al endpoint](#inicio-de-sesión) |
+| DELETE | Registrado | {{url}}/users/logout | [Link al endpoint](#cerrar-sesión) |
+| GET | Registrado | {{url}}/users/myinfo | [Link al endpoint](#info-del-user-conectado) |
+| GET | Registrado | {{url}}/users/yourPostsAndComment | [Link al endpoint](#post-y-comments-del-usuario-conectado) |
+| GET | Registrado | {{url}}/users/id/:_id | [Link al endpoint](#buscar-usuarios-por-id) |
+| GET | Registrado | {{url}}/users/username/ma | [Link al endpoint](#buscar-usuario-por-username) |
+| PUT | Registrado | {{url}}/users/followUser/:_id | [Link al endpoint](#seguir-usuarios) |
+| PUT | Registrado | {{url}}/users/unfollowUser/:_id | [Link al endpoint](#dejar-de-seguir-a-usuarios) |
+| DELETE | Registrado | {{url}}/users/yourUserDelete | [Link al endpoint](#borrar-usuario) |
+| GET | Admin | {{url}}/users/ | [Link al endpoint](#mostrar-usuarios-registrados) |
+| GET | Admin | {{url}}/users/allconnects | [Link al endpoint](#mostrar-usuarios-en-linea) |
+| GET | Admin | {{url}}/users/usersPostsComments | [Link al endpoint](#mostrar-usuarios-en-linea-con-todos-sus-postscomment) |
+| DELETE | Admin | {{url}}/users/userId/:_id| [Link al endpoint](#borrar-cualquier-usuario) |
+
+-----------------------
+<b> Posts </b>
+
+
+| MÉTODO | ROL| ENDPOINT | LINK |
+| --- | --- | --- | ---|
+| POST | Registrado | {{url}}/posts | [Link al endpoint](#crear-post) |
+| PUT | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#modificar-post) |
+| DELETE | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#borrar-post) |
+| GET | Registrado | {{url}}/posts/?page=1 | [Link al endpoint](#mostrar-todos-los-post) |
+| GET | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#buscar-post-por-id) |
+| GET | Registrado | {{url}}/posts/title/pat | [Link al endpoint](#buscar-post-por-título) |
+| PUT | Registrado | {{url}}/posts/likes/:_id | [Link al endpoint](#dar-like-a-post) |
+| PUT | Registrado | {{url}}/posts/dislikes/:_id | [Link al endpoint](#dar-dislike-a-post) |
+
+---------------------------------
+
+<center><b> Comentarios </b></center>
+
+
+| MÉTODO | ROL| ENDPOINT | LINK |
+| --- | --- | --- | ---|
+| POST | Registrado | {{url}}/comments/idpost/:_id | [Link al endpoint](#crear-comentario) |
+| PUT | Registrado | {{url}}/comments/idcomment/:_id | [Link al endpoint](#modificar-comentario) |
+| DELETE | Registrado | {{url}}/comments/id/:_id | [Link al endpoint](#borrar-comentario) |
+| GET| Registrado | {{url}}/comments/id/:_id | [Link al endpoint](#mostrar-por-id-comentario) |
+| GET | Admin | {{url}}/comments/ | [Link al endpoint](#mostrar-todos-los-comentarios) |
+| PUT | Registrado |{{url}}/comments/likesComment/:_id | [Link al endpoint](#dar-like-a-comentario) |
+| PUT | Registrado |{{url}}/comments/dislikesComment/:_id | [Link al endpoint](#dislike-a-comentario) |
+
+
+
+
+
 #  Usuarios :relaxed:
 
 ## Registrarse
@@ -318,11 +376,11 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 Endopoint que sirve para introducir un usuario en la BBDD, automáticamente se le asigna el rol de usuario, la contraseña se guarda codificada para que no sea accesible y el usuario queda pendiente de confirmación via mail. Este procedimiento anida diversas verificaciones, que son las siguientes: el email debe ser único, y los campos de username, age, email y password deben ser obligatorios para rellenar. Sin embargo, la imagen no es obligatoria. Al usar el middleware Multer para adjuntar imágenes, debemos tener en cuenta lo siguiente:
 - En la ruta debemos añadir:
 `````
-upload.single('upload'), 
+uploadUserAvatar.single('upload'),
 `````
 - de forma que se nos quedaría así:
 ````
-router.post('/', upload.single('upload'), UserController.register)
+router.post('/', uploadUserAvatar.single('upload'), UserController.register)
 ````
 Esto nos permite usar el midleware Multer para poder adjuntar una imagen con cada nuevo usuario.  Al usar Multer, es necesario poner la información dentro del Body, pero en form-data, y en el campo upload, seleccionar tipo:File:
 
@@ -736,11 +794,11 @@ Body:
 **(Registrado) PUT** - `{{url}}/users/modifyUser` 
 - Aquí además, en la ruta debemos añadir:
 `````
-upload.single('upload'), 
+uploadUserAvatar.single('upload'),
 `````
 - de forma que en este caso se quedaría así:
 ```
-router.put('/modifyUser', authentication, upload.single('upload'), UserController.update)
+router.put('/modifyUser', authentication, uploadUserAvatar.single('upload'), UserController.update)
 ````
 Esto nos permite usar el midleware Multer para poder adjuntar una imagen con cada usuario. Este endpoint sirve para modificar al usuario que está en línea. Al usar Multer, es necesario poner la información dentro del Body, pero en form-data:
 
@@ -1049,11 +1107,11 @@ Respuesta:
 **(Registrado) POST** - `{{url}}/posts` 
 - Aquí además, en la ruta debemos añadir:
 `````
-upload.single('upload'), 
+uploadPostImages.single('upload') 
 `````
 - de forma que en este caso se quedaría así:
 ```
-router.post('/', authentication, upload.single('upload'), PostController.create)
+router.post('/', authentication, uploadPostImages.single('upload'), PostController.create)
 ````
 Esto nos permite usar el midleware Multer para poder adjuntar una imagen con cada post. Este endpoint sirve para crear un post nuevo. Al usar Multer, es necesario poner la información dentro del Body, pero en form-data:
 
