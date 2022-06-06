@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     }],
-    img: String,
+    image: String,
     role: String,
 }, { timestamps: true });
 

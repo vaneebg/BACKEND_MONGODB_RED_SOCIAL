@@ -6,7 +6,7 @@ const colors = require('colors/safe');
 const PostController = {
     async create(req, res, next) {
         try {
-            if (req.file) req.body.img = req.file.filename
+            if (req.file) req.body.image = req.file.filename
             const post = await Post.create({...req.body, userId: req.user._id })
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { postsId: post._id }
@@ -21,8 +21,8 @@ const PostController = {
     async getAll(req, res) {
         try {
             const { page = 1, limit = 10 } = req.query;
-            const allPosts = await Post.find({}, { title: 1, body: 1, img: 1 })
-            const posts = await Post.find({}, { title: 1, body: 1, img: 1 })
+            const allPosts = await Post.find({}, { title: 1, body: 1, image: 1 })
+            const posts = await Post.find({}, { title: 1, body: 1, image: 1 })
                 .populate({ path: 'userId', select: 'username email' })
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username' } })
                 .limit(limit * 1)
@@ -50,8 +50,8 @@ const PostController = {
                 return res.status(400).send('Búsqueda demasiado larga')
             }
             const title = new RegExp(req.params.title, "i");
-            const post = await Post.find({ title }, { title: 1, body: 1, img: 1 })
-                .populate({ path: 'commentsId', select: 'title body img' });
+            const post = await Post.find({ title }, { title: 1, body: 1, image: 1 })
+                .populate({ path: 'commentsId', select: 'title body image' });
             if (post.length === 0) {
                 res.status(404).send('Ningún título de post coincide con tu búsqueda :(')
             } else {
@@ -67,7 +67,7 @@ const PostController = {
     },
     async update(req, res) {
         try {
-            if (req.file) req.body.img = req.file.filename
+            if (req.file) req.body.image = req.file.filename
             const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true })
             res.status(201).send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {

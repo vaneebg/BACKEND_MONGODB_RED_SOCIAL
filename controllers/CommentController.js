@@ -6,7 +6,7 @@ const colors = require('colors/safe');
 const CommentController = {
     async create(req, res, next) {
         try {
-            if (req.file) req.body.img = req.file.filename
+            if (req.file) req.body.image = req.file.filename
             const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id })
             await Post.findByIdAndUpdate(req.params._id, {
                 $push: { commentsId: comment._id },
@@ -25,7 +25,7 @@ const CommentController = {
     },
     async update(req, res) {
         try {
-            if (req.file) req.body.img = req.file.filename
+            if (req.file) req.body.image = req.file.filename
             const comment = await Comment.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id, postId: req.params._id }, { new: true })
 
             res.status(201).send({ message: `Comentario con id ${req.params._id} modificado con éxito`, comment });

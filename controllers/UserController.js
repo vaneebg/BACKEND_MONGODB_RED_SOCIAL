@@ -14,7 +14,7 @@ const UserController = {
         try {
             req.body.confirmed = false
             let hashedPassword;
-            if (req.file) req.body.img = req.file.filename
+            if (req.file) req.body.image = req.file.filename
             if (req.body.password !== undefined) {
                 hashedPassword = await bcrypt.hashSync(req.body.password, 10)
             }
@@ -103,8 +103,8 @@ const UserController = {
 
     async getAllInfoUsers(req, res) {
         try {
-            const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1, followers: 1, following: 1, postsId: 1 })
-                .populate({ path: 'postsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'commentsId', select: { title: 1, body: 1, img: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
+            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1, followers: 1, following: 1, postsId: 1 })
+                .populate({ path: 'postsId', select: { title: 1, body: 1, image: 1 }, populate: { path: 'commentsId', select: { title: 1, body: 1, image: 1 }, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } } })
                 .populate('favList')
             const listUsers = users.map(user => {
                 return { Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user }
@@ -118,8 +118,8 @@ const UserController = {
     async getUserPostComments(req, res) {
         try {
             const users = await User.findById(req.user._id)
-                .populate({ path: 'postsId', select: { title: 1, body: 1 }, populate: { path: 'commentsId', select: { title: 1 }, populate: { path: 'userId', select: { username: 1, img: 1, email: 1 } } } })
-                .populate('favList', ['title', 'body', 'img'])
+                .populate({ path: 'postsId', select: { title: 1, body: 1 }, populate: { path: 'commentsId', select: { title: 1 }, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } } })
+                .populate('favList', ['title', 'body', 'image'])
                 .select('username')
 
             res.status(200).send(users)
@@ -131,7 +131,7 @@ const UserController = {
     },
     async getAll(req, res) {
         try {
-            const users = await User.find({}, { username: 1, email: 1, img: 1, confirmed: 1 })
+            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1 })
             res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -165,11 +165,11 @@ const UserController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-            res.status(200).send({ message: "Desconectado con éxito" });
+            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ', user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
-                message: "Hubo un problema al intentar conectar al usuario",
+                message: "Hubo un problema al intentar desconectar al usuario",
             });
         }
     },
@@ -246,12 +246,12 @@ const UserController = {
     async update(req, res) {
         try {
             let hashedPassword;
-            if (req.file) req.body.img = req.file.filename
-            const { username, password, img } = req.body
+            if (req.file) req.body.image = req.file.filename
+            const { username, password, image } = req.body
             if (password !== undefined) {
                 hashedPassword = await bcrypt.hashSync(password, 10)
             }
-            const user = await User.findByIdAndUpdate(req.user._id, { username, img, role: "user", password: hashedPassword }, { new: true })
+            const user = await User.findByIdAndUpdate(req.user._id, { username, image, role: "user", password: hashedPassword }, { new: true })
             res.status(201).send({ message: `User con id ${req.user._id} modificado con éxito`, user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))

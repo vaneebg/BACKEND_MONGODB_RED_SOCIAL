@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router()
 const UserController = require('../controllers/UserController');
-const upload = require('../middlewares/addMulter');
-const { authentication, isAdmin } = require("../middlewares/authentication");
 
-router.post('/', upload.single('upload'), UserController.register)
+const { authentication, isAdmin } = require("../middlewares/authentication");
+const { uploadUserAvatar, uploadCommentImages, uploadPostImages } = require('../middlewares/addMulter');
+
+
+router.post('/', uploadUserAvatar.single('upload'), UserController.register)
 router.post('/login', UserController.login)
 router.get('/', authentication, isAdmin, UserController.getAll)
 router.get('/myinfo', authentication, UserController.getOne)
@@ -19,6 +21,6 @@ router.delete('/userId/:_id', authentication, isAdmin, UserController.deleteUser
 router.put('/followUser/:_id', authentication, UserController.following)
 router.put('/unfollowUser/:_id', authentication, UserController.unfollow)
 router.delete('/yourUserDelete', authentication, UserController.deleteUser)
-router.put('/modifyUser', authentication, upload.single('upload'), UserController.update)
+router.put('/modifyUser', authentication, uploadUserAvatar.single('upload'), UserController.update)
 
 module.exports = router;

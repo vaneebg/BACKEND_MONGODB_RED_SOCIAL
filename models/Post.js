@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true, "Por favor introduce el cuerpo del post"],
     },
-    img: String,
+    image: String,
     userId: {
         type: ObjectId,
         ref: 'User'

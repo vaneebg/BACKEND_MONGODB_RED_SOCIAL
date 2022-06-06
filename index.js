@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(typeError)
 dbConnection()
 
-app.use(express.static('./uploads'));
+app.use(express.static('./public'));
 
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
