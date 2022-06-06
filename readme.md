@@ -829,7 +829,7 @@ Respuesta:
 }
 ```
 --------------------
-## Mostrar usuarios conectados
+## Mostrar usuarios registrados
 **(Admin) GET** - `{{url}}/users/` 
 
 
