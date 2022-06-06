@@ -318,20 +318,20 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 
 | MÉTODO | ROL| ENDPOINT | LINK |
 | --- | --- | --- | --- |
-| POST | Público |{{url}}/users | [Link al endpoint](#registrarse) |
-| GET | Registrado | {{url}}/users/login | [Link al endpoint](#inicio-de-sesión) |
-| DELETE | Registrado | {{url}}/users/logout | [Link al endpoint](#cerrar-sesión) |
-| GET | Registrado | {{url}}/users/myinfo | [Link al endpoint](#info-del-user-conectado) |
-| GET | Registrado | {{url}}/users/yourPostsAndComment | [Link al endpoint](#post-y-comments-del-usuario-conectado) |
-| GET | Registrado | {{url}}/users/id/:_id | [Link al endpoint](#buscar-usuarios-por-id) |
-| GET | Registrado | {{url}}/users/username/ma | [Link al endpoint](#buscar-usuario-por-username) |
-| PUT | Registrado | {{url}}/users/followUser/:_id | [Link al endpoint](#seguir-usuarios) |
-| PUT | Registrado | {{url}}/users/unfollowUser/:_id | [Link al endpoint](#dejar-de-seguir-a-usuarios) |
-| DELETE | Registrado | {{url}}/users/yourUserDelete | [Link al endpoint](#borrar-usuario) |
-| GET | Admin | {{url}}/users/ | [Link al endpoint](#mostrar-usuarios-registrados) |
-| GET | Admin | {{url}}/users/allconnects | [Link al endpoint](#mostrar-usuarios-en-linea) |
-| GET | Admin | {{url}}/users/usersPostsComments | [Link al endpoint](#mostrar-usuarios-en-linea-con-todos-sus-postscomment) |
-| DELETE | Admin | {{url}}/users/userId/:_id| [Link al endpoint](#borrar-cualquier-usuario) |
+| POST | Público |{{url}}/users | [Crear usuario](#registrarse) |
+| GET | Registrado | {{url}}/users/login | [Login](#inicio-de-sesión) |
+| DELETE | Registrado | {{url}}/users/logout | [Logout](#cerrar-sesión) |
+| GET | Registrado | {{url}}/users/myinfo | [Info user conectado](#info-del-user-conectado) |
+| GET | Registrado | {{url}}/users/yourPostsAndComment | [Tus posts y comentarios](#post-y-comments-del-usuario-conectado) |
+| GET | Registrado | {{url}}/users/id/:_id | [Buscar por id](#buscar-usuarios-por-id) |
+| GET | Registrado | {{url}}/users/username/ma | [Buscar por username](#buscar-usuario-por-username) |
+| PUT | Registrado | {{url}}/users/followUser/:_id | [Seguir](#seguir-usuarios) |
+| PUT | Registrado | {{url}}/users/unfollowUser/:_id | [Dejar de seguir](#dejar-de-seguir-a-usuarios) |
+| DELETE | Registrado | {{url}}/users/yourUserDelete | [Borrarse](#borrar-usuario) |
+| GET | Admin | {{url}}/users/ | [Todos los users registrados](#mostrar-usuarios-registrados) |
+| GET | Admin | {{url}}/users/allconnects | [Todos los users conectados](#mostrar-usuarios-en-linea) |
+| GET | Admin | {{url}}/users/usersPostsComments | [Toda info users](#mostrar-usuarios-en-linea-con-todos-sus-postscomment) |
+| DELETE | Admin | {{url}}/users/userId/:_id| [Borrar cualquier user](#borrar-cualquier-usuario) |
 
 -----------------------
 <b> Posts </b>
@@ -339,14 +339,14 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 
 | MÉTODO | ROL| ENDPOINT | LINK |
 | --- | --- | --- | ---|
-| POST | Registrado | {{url}}/posts | [Link al endpoint](#crear-post) |
-| PUT | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#modificar-post) |
-| DELETE | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#borrar-post) |
-| GET | Registrado | {{url}}/posts/?page=1 | [Link al endpoint](#mostrar-todos-los-post) |
-| GET | Registrado | {{url}}/posts/id/:_id | [Link al endpoint](#buscar-post-por-id) |
-| GET | Registrado | {{url}}/posts/title/pat | [Link al endpoint](#buscar-post-por-título) |
-| PUT | Registrado | {{url}}/posts/likes/:_id | [Link al endpoint](#dar-like-a-post) |
-| PUT | Registrado | {{url}}/posts/dislikes/:_id | [Link al endpoint](#dar-dislike-a-post) |
+| POST | Registrado | {{url}}/posts | [Crear post](#crear-post) |
+| PUT | Registrado/Author | {{url}}/posts/id/:_id | [Modificar post](#modificar-post) |
+| DELETE | Registrado/author | {{url}}/posts/id/:_id | [Borrar post](#borrar-post) |
+| GET | Registrado | {{url}}/posts/?page=1 | [Mostrar todos los post](#mostrar-todos-los-post) |
+| GET | Registrado | {{url}}/posts/id/:_id | [Buscar por id](#buscar-post-por-id) |
+| GET | Registrado | {{url}}/posts/title/pat | [Buscar por título](#buscar-post-por-título) |
+| PUT | Registrado | {{url}}/posts/likes/:_id | [Like a post](#dar-like-a-post) |
+| PUT | Registrado | {{url}}/posts/dislikes/:_id | [Quitar like a post](#dar-dislike-a-post) |
 
 ---------------------------------
 
@@ -355,13 +355,13 @@ Se ha utilizado Postman para ir probando cada uno de los endpoints creados para 
 
 | MÉTODO | ROL| ENDPOINT | LINK |
 | --- | --- | --- | ---|
-| POST | Registrado | {{url}}/comments/idpost/:_id | [Link al endpoint](#crear-comentario) |
-| PUT | Registrado | {{url}}/comments/idcomment/:_id | [Link al endpoint](#modificar-comentario) |
-| DELETE | Registrado | {{url}}/comments/id/:_id | [Link al endpoint](#borrar-comentario) |
-| GET| Registrado | {{url}}/comments/id/:_id | [Link al endpoint](#mostrar-por-id-comentario) |
-| GET | Admin | {{url}}/comments/ | [Link al endpoint](#mostrar-todos-los-comentarios) |
-| PUT | Registrado |{{url}}/comments/likesComment/:_id | [Link al endpoint](#dar-like-a-comentario) |
-| PUT | Registrado |{{url}}/comments/dislikesComment/:_id | [Link al endpoint](#dislike-a-comentario) |
+| POST | Registrado | {{url}}/comments/idpost/:_id | [Crear comentario](#crear-comentario) |
+| PUT | Registrado/author | {{url}}/comments/idcomment/:_id | [Modificar comentario](#modificar-comentario) |
+| DELETE | Registrado/author | {{url}}/comments/id/:_id | [Borrar comentario](#borrar-comentario) |
+| GET| Registrado | {{url}}/comments/id/:_id | [Buscar por id](#mostrar-por-id-comentario) |
+| GET | Admin | {{url}}/comments/ | [Mostrar todos los comentarios](#mostrar-todos-los-comentarios) |
+| PUT | Registrado |{{url}}/comments/likesComment/:_id | [Dar like a comentarios](#dar-like-a-comentario) |
+| PUT | Registrado |{{url}}/comments/dislikesComment/:_id | [Quitar like](#dislike-a-comentario) |
 
 
 
