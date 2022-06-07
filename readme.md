@@ -1696,7 +1696,7 @@ A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Ge
 
 - [ ] Sistema de testing con Jest.
 
-- [ ] Implementar Multer por carpetas, separando avatars, de imágenes posts e imágenes comentarios.
+- [ ] Borrado en cascada para comentarios hechos en otros posts.
 
 ----------------------
 
