@@ -43,6 +43,8 @@
 
     - [Nodemailer](#uso-de-nodemailer)
 
+    - [Swagger](#uso-de-swagger)
+
 
 - [Agradecimientos](#agradecimientos)
 
@@ -112,66 +114,66 @@ Una vez analizadas las necesidades del proyecto, se espera
 que el alumno desarrolle una API REST que sea capaz de lo siguiente:
 
 
-[X] Registro de usuarios usando Bcrypt.
+- [X] Registro de usuarios usando Bcrypt.
 
 
-[X] Login de usuarios + token + middleware.
+- [X] Login de usuarios + token + middleware.
 
 
-[X] Que sea capaz de crear un CRUD.
+- [X] Que sea capaz de crear un CRUD.
 
 
-[X] Dar/quitar Like a post.
+- [X] Dar/quitar Like a post.
 
 
-[X] Backend disponible en producción (Heroku).
+- [X] Backend disponible en producción (Heroku).
 
 Requisitos imprescindibles del proyecto:
 
 
-[X]  Uso de ramas con git, cuando se termine el proyecto deberán quedar dos ramas la master o main y la develop.
+- [X]  Uso de ramas con git, cuando se termine el proyecto deberán quedar dos ramas la master o main y la develop.
 
 
-[X]  Presentación de README excelente.
+- [X]  Presentación de README excelente.
 
 ## 1.1. Endpoints
 
   **_Posts_**
 
 
-[X] Endpoint para crear un post( tiene que estar autenticado)
+- [X] Endpoint para crear un post( tiene que estar autenticado)
 
 
-[X] Endpoint para actualizar un post ( tiene que estar autenticado)
+- [X] Endpoint para actualizar un post ( tiene que estar autenticado)
 
 
-[X] Endpoint para eliminar un post( tiene que estar autenticado)
+- [X] Endpoint para eliminar un post( tiene que estar autenticado)
 
 
-[X] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
+- [X] Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
 
 
-[X] Endpoint para buscar post por nombre
+- [X] Endpoint para buscar post por nombre
 
 
-[X] Endpoint para buscar post por id
+- [X] Endpoint para buscar post por id
 
 
-[X] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
+- [X] Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
 
 
-[X]Paginación de 10 en 10
+- [X] Paginación de 10 en 10
 
 
   - *Likes:*
 
 
-[X] Endpoint para dar un like a un post
+- [X] Endpoint para dar un like a un post
 
 
-[X] Endpoint para quitar like a un post
+- [X] Endpoint para quitar like a un post
 
-[X]  Comments
+- [X]  Comments
 
 
 Endpoint para crear un comentario en un determinado post
@@ -181,34 +183,34 @@ Endpoint para crear un comentario en un determinado post
   **_Usuarios_**
 
 
-[X] Endpoint para registrar un usuario utilizando bcrypt
+- [X] Endpoint para registrar un usuario utilizando bcrypt
 
 
-[X] Implementa el correo de confirmación para el registro
+- [X] Implementa el correo de confirmación para el registro
 
 
-[X] Endpoint para login(utilizando bcrypt +JWT)
+- [X] Endpoint para login(utilizando bcrypt +JWT)
 
 
-[X] Validación en el login:
+- [X] Validación en el login:
 
 
 Si no has confirmado tu correo no puedes conectarte
 
 
-[X] Endpoint que nos traiga la información del usuario conectado
+- [X] Endpoint que nos traiga la información del usuario conectado
 
 
-[X] Endpoint para el logout
+- [X] Endpoint para el logout
 
 
-[X] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
+- [X] Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
 
 
-[X] Backend disponible en producción (Heroku).
+- [X] Backend disponible en producción (Heroku).
 
 
-[X] Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
+- [X] Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
 
 
 
@@ -216,19 +218,19 @@ Si no has confirmado tu correo no puedes conectarte
 ## 1.2. Extras
 
 
-[X] Middleware para comprobar la autoría del comentario a la hora de editar/eliminar el mismo.
+- [X] Middleware para comprobar la autoría del comentario a la hora de editar/eliminar el mismo.
 
 
-[X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar posts.
+- [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar posts.
 
 
-[X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
+- [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar comentarios.
 
 
-[X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
+- [X] Implementa el middleware multer para poder adjuntar imágenes al crear o actualizar un usuario.
 
 
-[X] Implementación de followers:
+- [X] Implementación de followers:
 
 
 Que puedas seguir a otros usuarios
@@ -236,33 +238,33 @@ Que puedas seguir a otros usuarios
 Que puedas dejar de seguir a otros usuarios
 
 
-[X] El Endpoint que nos trae la información del usuario conectado, además que nos traiga los posts y el número de seguidores que tiene
+- [X] El Endpoint que nos trae la información del usuario conectado, además que nos traiga los posts y el número de seguidores que tiene
 
 
-[X] Endpoint que nos trae la información del usuario conectado junto a sus post y número de followers, también que nos muestre el nombre de los followers que siguen al usuario conectado
+- [X] Endpoint que nos trae la información del usuario conectado junto a sus post y número de followers, también que nos muestre el nombre de los followers que siguen al usuario conectado
 
 
-[X] El endpoint que trae todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post que también traiga los usuarios que hicieron los comentarios
+- [X] El endpoint que trae todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post que también traiga los usuarios que hicieron los comentarios
 
 
-[X] Endpoint para buscar usuario por nombre
+- [X] Endpoint para buscar usuario por nombre
 
 
-[X] Endpoint para buscar usuario por id
+- [X] Endpoint para buscar usuario por id
 
 
-[ ] Aplica lo aprendido de testing con Jest y Supertest en alguna parte de tu proyecto, por ejemplo en la parte encargada de los endpoints de usuario
+- [ ] Aplica lo aprendido de testing con Jest y Supertest en alguna parte de tu proyecto, por ejemplo en la parte encargada de los endpoints de usuario
 
 
-[ ] Crea una documentación de tu proyecto
+- [/] Crea una documentación de tu proyecto
 
 
   - *Comments*
 
 
-[X] CRUD comments
+- [X] CRUD comments
 
-[X] Likes:
+- [X] Likes:
 
 Dar un like a un comentario
 
@@ -1681,10 +1683,14 @@ Aprender a desplegar una API mediante el uso de Heroku como herramienta nueva.
 En este caso, pese a que lo habíamos utilizado ya antes, las nuevas restricciones de google para las cuentas de gmail, han hecho que tngamos varios problemas. Finalmente, se cambió la configuración de nodemailer para que acepte correos de outlook y poder trabajar desde ahí.
 
 
+## Uso de Swagger
+Aprender a documentar los endpoints dentro de esta nueva herramienta, cerrando correctmente cada endpoint.
+
 ------------------------------
 
 # :purple_heart: Agradecimientos :purple_heart:
-A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos :smile:.
+A la lead instructor [Sofía](https://github.com/SofiaPinilla), y los dos TA [Germán](https://github.com/GeerDev), [Iván](https://github.com/ivanpuebla10) por ayudarme a ponerme al día en clase cuando he tenido algún asunto de salud, y por solucionar algunos bugs y explicármelos.
+A [Xavi](https://github.com/xavi-mat) y a [Ger](https://github.com/Molerog) compi por su gran manejo de Swagger :smile: .
 
 ----------------
 
