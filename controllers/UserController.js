@@ -120,6 +120,7 @@ const UserController = {
             const users = await User.findById(req.user._id)
                 .populate({ path: 'postsId', select: { title: 1, body: 1 }, populate: { path: 'commentsId', select: { title: 1 }, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } } })
                 .populate('favList', ['title', 'body', 'image'])
+                .populate('commentsId')
                 .select('username')
 
             res.status(200).send(users)
@@ -165,7 +166,7 @@ const UserController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ', user });
+            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ' });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
