@@ -1677,14 +1677,14 @@ Al utilizar ahora una base de datos no relacional, había que adaptar los conoci
 Tener en cuenta qué acciones te permite realizar una red social y cuáles no. Por ejemplo, un usuario sí puede darle like a su propio post, sin embargo no se puede seguir a sí mismo. Además, restringir los likes a uno solo, con el objetivo de evitar que un mismo usuario pueda llenar del mismo like a un post.
 
 ## Uso de heroku
-Aprender a desplegar una API mediante el uso de Heroku como herramienta nueva.
+Aprender a desplegar una API mediante el uso de Heroku como herramienta nueva. La API está desplegada en: https://red-social-vaneebg.herokuapp.com/
 
 ## Uso de nodemailer
 En este caso, pese a que lo habíamos utilizado ya antes, las nuevas restricciones de google para las cuentas de gmail, han hecho que tngamos varios problemas. Finalmente, se cambió la configuración de nodemailer para que acepte correos de outlook y poder trabajar desde ahí.
 
 
 ## Uso de Swagger
-Aprender a documentar los endpoints dentro de esta nueva herramienta, cerrando correctmente cada endpoint.
+Aprender a documentar los endpoints dentro de esta nueva herramienta, cerrando correctamente cada endpoint. Hecho el CRUD de comentarios entero: http://localhost:8080/api-docs/#/Comments
 
 ------------------------------
 
