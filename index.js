@@ -11,6 +11,9 @@ const docs = require('./docs/index')
 app.use(express.json())
 app.use(typeError)
 dbConnection()
+const cors = require('cors')
+
+app.use(cors())
 
 app.use(express.static('./public'));
 
