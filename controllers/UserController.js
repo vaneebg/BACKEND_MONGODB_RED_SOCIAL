@@ -31,8 +31,7 @@ const UserController = {
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-            console.log(colors.red.bgWhite(error))
-            error.origin = 'usuario register'
+            error.origin = 'User'
             next(error)
         }
     },
@@ -165,7 +164,7 @@ const UserController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ', user });
+            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto '});
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
