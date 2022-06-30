@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET
-const transporter = require('../config/nodemailer');
+// const transporter = require('../config/nodemailer');
 const colors = require('colors/safe');
 
 const UserController = {

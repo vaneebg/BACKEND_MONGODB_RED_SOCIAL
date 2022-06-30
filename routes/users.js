@@ -6,7 +6,7 @@ const { authentication, isAdmin } = require("../middlewares/authentication");
 const { uploadUserAvatar, uploadCommentImages, uploadPostImages } = require('../middlewares/addMulter');
 
 
-router.post('/', uploadUserAvatar.single('upload'), UserController.register)
+router.post('/', uploadUserAvatar.single('image'), UserController.register)
 router.post('/login', UserController.login)
 router.get('/', authentication, isAdmin, UserController.getAll)
 router.get('/myinfo', authentication, UserController.getOne)
