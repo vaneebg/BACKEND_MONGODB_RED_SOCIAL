@@ -21,6 +21,6 @@ router.delete('/userId/:_id', authentication, isAdmin, UserController.deleteUser
 router.put('/followUser/:_id', authentication, UserController.following)
 router.put('/unfollowUser/:_id', authentication, UserController.unfollow)
 router.delete('/yourUserDelete', authentication, UserController.deleteUser)
-router.put('/modifyUser', authentication, uploadUserAvatar.single('upload'), UserController.update)
+router.put('/modifyUser', authentication, uploadUserAvatar.single('image'), UserController.update)
 
 module.exports = router;
