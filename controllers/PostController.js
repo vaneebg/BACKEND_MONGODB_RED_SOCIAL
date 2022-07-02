@@ -22,7 +22,7 @@ const PostController = {
         try {
             // const { page = 1, limit = 10 } = req.query;
             const allPosts = await Post.find({}, { title: 1, body: 1, image: 1 })
-            const posts = await Post.find({}, { title: 1, body: 1, image: 1, likes:1})
+            const posts = await Post.find({}, { title: 1, body: 1, image: 1, likes:1, createdAt:1})
                 .populate({ path: 'userId', select: 'username email image' })
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image' } })
                 // .limit(limit * 1)
@@ -37,7 +37,7 @@ const PostController = {
 
     async getById(req, res) {
         try {
-            const post = await Post.findById(req.params._id)
+            const post = await Post.findById(req.params._id).populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image' } })
             res.status(200).send(post)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
