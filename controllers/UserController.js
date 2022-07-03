@@ -165,11 +165,7 @@ const UserController = {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-<<<<<<< HEAD
-            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ' });
-=======
             res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto '});
->>>>>>> develop
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
