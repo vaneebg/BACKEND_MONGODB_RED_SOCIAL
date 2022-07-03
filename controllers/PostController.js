@@ -69,7 +69,7 @@ const PostController = {
     async update(req, res) {
         try {
             if (req.file) req.body.image = req.file.filename
-            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true })
+            const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true }).populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image' } })
             res.status(201).send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
