@@ -128,7 +128,7 @@ que el alumno desarrolle una API REST que sea capaz de lo siguiente:
 
 - [X] Backend disponible en producción (Heroku).
 
-Requisitos imprescindibles del proyecto:
+**Requisitos imprescindibles del proyecto:
 
 
 - [X]  Uso de ramas con git, cuando se termine el proyecto deberán quedar dos ramas la master o main y la develop.
@@ -889,7 +889,7 @@ Respuesta:
 }
 ```
 --------------------
-## Mostrar usuarios conectados
+## Mostrar usuarios registrados
 **(Admin) GET** - `{{url}}/users/` 
 
 
