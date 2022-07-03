@@ -51,8 +51,9 @@ const PostController = {
                 return res.status(400).send('Búsqueda demasiado larga')
             }
             const title = new RegExp(req.params.title, "i");
-            const post = await Post.find({ title }, { title: 1, body: 1, image: 1 })
-                .populate({ path: 'commentsId', select: 'title body image' });
+            const post = await Post.find({ title }, { title: 1, body: 1, image: 1, likes:1, createdAt:1})
+                 .populate({ path: 'userId', select: 'username email image' })
+                .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image' } })
             if (post.length === 0) {
                 res.status(404).send('Ningún título de post coincide con tu búsqueda :(')
             } else {
