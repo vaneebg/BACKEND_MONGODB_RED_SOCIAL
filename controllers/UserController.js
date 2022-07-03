@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET
-const transporter = require('../config/nodemailer');
+// const transporter = require('../config/nodemailer');
 const colors = require('colors/safe');
 
 const UserController = {
@@ -19,20 +19,19 @@ const UserController = {
                 hashedPassword = await bcrypt.hashSync(req.body.password, 10)
             }
             const user = await User.create({...req.body, role: "user", password: hashedPassword });
-            const emailToken = await jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' })
-            const url = "http://localhost:8080/users/confirm/" + emailToken
-            await transporter.sendMail({
-                to: req.body.email,
-                subject: "Confirma tu registro a nuestra red social",
-                html: `<h2>¡Hola ${user.username}!</h2>
-                <p>Para finalizar tu registro en la suuper red social correctamente <a href=${url}>haz click aquí</a> </p>
-                `
-            })
+            // const emailToken = await jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' })
+            // const url = "http://localhost:8080/users/confirm/" + emailToken
+            // await transporter.sendMail({
+            //     to: req.body.email,
+            //     subject: "Confirma tu registro a nuestra red social",
+            //     html: `<h2>¡Hola ${user.username}!</h2>
+            //     <p>Para finalizar tu registro en la suuper red social correctamente <a href=${url}>haz click aquí</a> </p>
+            //     `
+            // })
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
-            console.log(colors.red.bgWhite(error))
-            error.origin = 'usuario register'
+            error.origin = 'User'
             next(error)
         }
     },
@@ -48,9 +47,9 @@ const UserController = {
             if (!isMatch) {
                 return res.status(400).send('Email/contraseña incorrectos')
             }
-            if (!user.confirmed) {
-                return res.status(400).send('No has verificado el usuario, revisa tu correo.')
-            }
+            // if (!user.confirmed) {
+            //     return res.status(400).send('No has verificado el usuario, revisa tu correo.')
+            // }
             const token = jwt.sign({ _id: user._id }, JWT_SECRET);
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
@@ -132,7 +131,7 @@ const UserController = {
     },
     async getAll(req, res) {
         try {
-            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1 })
+            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1,  following:1, followers:1})
             res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -142,7 +141,7 @@ const UserController = {
     },
     async getAllLogin(req, res) {
         try {
-            const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1 })
+            const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1, image:1 })
             res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -150,23 +149,27 @@ const UserController = {
         }
     },
 
-    async validateUser(req, res) {
-        try {
-            const payload = jwt.verify(req.params.token, JWT_SECRET)
-            await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
-            res.status(201).send(`Te has verificado correctamente`)
-        } catch (error) {
-            console.log(colors.red.bgWhite(error))
-            res.status(404).send(`Enlace roto :(`)
-        }
-    },
+    // async validateUser(req, res) {
+    //     try {
+    //         const payload = jwt.verify(req.params.token, JWT_SECRET)
+    //         await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
+    //         res.status(201).send(`Te has verificado correctamente`)
+    //     } catch (error) {
+    //         console.log(colors.red.bgWhite(error))
+    //         res.status(404).send(`Enlace roto :(`)
+    //     }
+    // },
 
     async logout(req, res) {
         try {
             await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
+<<<<<<< HEAD
             res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto ' });
+=======
+            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto '});
+>>>>>>> develop
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({

@@ -5,6 +5,8 @@ const colors = require('colors/safe');
 
 const CommentController = {
     async create(req, res, next) {
+        console.log('patata')
+
         try {
             if (req.file) req.body.image = req.file.filename
             const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id })
@@ -16,9 +18,10 @@ const CommentController = {
             });
             res.status(201).send({ message: 'Se creó tu comentario!', comment })
         } catch (error) {
+
             console.log(colors.red.bgWhite(error))
             console.error(error)
-            error.origin = 'comment modificar'
+            error.origin = 'comment crear'
             next(error)
 
         }

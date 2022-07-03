@@ -9,15 +9,18 @@ const swaggerUI = require('swagger-ui-express')
 const docs = require('./docs/index')
 
 app.use(express.json())
-app.use(typeError)
+
 dbConnection()
+const cors = require('cors')
+
+app.use(cors())
 
 app.use(express.static('./public'));
 
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
 app.use('/comments', require('./routes/comments'));
-
+app.use(typeError)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 
 app.listen(PORT, console.log(colors.rainbow(`Server started on port ${PORT}`)));
