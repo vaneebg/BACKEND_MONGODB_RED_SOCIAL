@@ -130,7 +130,7 @@ const UserController = {
     },
     async getAll(req, res) {
         try {
-            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1 })
+            const users = await User.find({}, { username: 1, email: 1, image: 1, confirmed: 1,  following:1, followers:1})
             res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -140,7 +140,7 @@ const UserController = {
     },
     async getAllLogin(req, res) {
         try {
-            const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1 })
+            const users = await User.find({ tokens: { $ne: [] } }, { username: 1, email: 1, image:1 })
             res.status(200).send(users)
         } catch (error) {
             console.log(colors.red.bgWhite(error))

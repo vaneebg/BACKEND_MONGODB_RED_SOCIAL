@@ -8,11 +8,11 @@ const { uploadUserAvatar, uploadCommentImages, uploadPostImages } = require('../
 
 router.post('/', uploadUserAvatar.single('image'), UserController.register)
 router.post('/login', UserController.login)
-router.get('/', authentication, isAdmin, UserController.getAll)
+router.get('/', authentication, UserController.getAll)
 router.get('/myinfo', authentication, UserController.getOne)
 router.get('/usersPostsComments', authentication, isAdmin, UserController.getAllInfoUsers)
 router.get('/yourPostsAndComment', authentication, UserController.getUserPostComments)
-router.get('/allconnects', authentication, isAdmin, UserController.getAllLogin)
+router.get('/allconnects', authentication, UserController.getAllLogin)
 // router.get('/confirm/:token', UserController.validateUser)
 router.delete('/logout', authentication, UserController.logout)
 router.get('/id/:_id', authentication, UserController.getById)
