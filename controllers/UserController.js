@@ -251,7 +251,8 @@ const UserController = {
             if (password !== undefined) {
                 hashedPassword = await bcrypt.hashSync(password, 10)
             }
-            const user = await User.findByIdAndUpdate(req.user._id, { username, image, role: "user", password: hashedPassword }, { new: true })
+            const user = await User.findByIdAndUpdate(req.user._id, { username, image, role: "user", password: hashedPassword }, { new: true }).populate({ path: 'postsId' })
+            .populate("followers", "username")
             res.status(201).send({ message: `User con id ${req.user._id} modificado con éxito`, user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
