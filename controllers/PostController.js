@@ -8,7 +8,7 @@ const PostController = {
         try {
             if (req.file) req.body.image = req.file.filename
             const post = await Post.create({...req.body, userId: req.user._id }) 
-            .populate({ path: 'userId', select: 'username image' })
+            .populate({ path: 'userId', select: 'username email image' })
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { postsId: post._id }
             })
