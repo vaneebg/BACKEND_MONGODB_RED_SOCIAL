@@ -7,10 +7,12 @@ const PostController = {
     async create(req, res, next) {
         try {
             if (req.file) req.body.image = req.file.filename
-            const post = await Post.create({...req.body, userId: req.user._id })
+            const post = await Post.create({...req.body, userId: req.user._id }) 
+            .populate({ path: 'userId', select: 'username image' })
             await User.findByIdAndUpdate(req.user._id, {
                 $push: { postsId: post._id }
-            });
+            })
+           
             res.status(201).send({ message: 'se creó el post correctamente', post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
