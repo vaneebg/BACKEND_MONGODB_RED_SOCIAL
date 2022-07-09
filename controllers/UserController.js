@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET
-// const transporter = require('../config/nodemailer');
+const transporter = require('../config/nodemailer');
 const colors = require('colors/safe');
 
 const UserController = {
@@ -19,18 +19,19 @@ const UserController = {
                 hashedPassword = await bcrypt.hashSync(req.body.password, 10)
             }
             const user = await User.create({...req.body, role: "user", password: hashedPassword });
-            // const emailToken = await jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' })
-            // const url = "http://localhost:8080/users/confirm/" + emailToken
-            // await transporter.sendMail({
-            //     to: req.body.email,
-            //     subject: "Confirma tu registro a nuestra red social",
-            //     html: `<h2>¡Hola ${user.username}!</h2>
-            //     <p>Para finalizar tu registro en la suuper red social correctamente <a href=${url}>haz click aquí</a> </p>
-            //     `
-            // })
+            const emailToken = await jwt.sign({ email: req.body.email }, JWT_SECRET, { expiresIn: '48h' })
+            const url = "https://red-social-vaneebg.herokuapp.com/users/confirm/" + emailToken
+            await transporter.sendMail({
+                to: req.body.email,
+                subject: "Confirma tu registro a nuestra red social",
+                html: `<h2>¡Hola ${user.username}!</h2>
+                <p>Para finalizar tu registro en la suuper red social correctamente <a href=${url}>haz click aquí</a> </p>
+                `
+            })
 
             res.status(201).send({ message: "Usuario registrado con éxito", user });
         } catch (error) {
+            console.log(error)
             error.origin = 'User'
             next(error)
         }
@@ -47,9 +48,9 @@ const UserController = {
             if (!isMatch) {
                 return res.status(400).send('Email/contraseña incorrectos')
             }
-            // if (!user.confirmed) {
-            //     return res.status(400).send('No has verificado el usuario, revisa tu correo.')
-            // }
+            if (!user.confirmed) {
+                return res.status(400).send('No has verificado el usuario, revisa tu correo.')
+            }
             const token = jwt.sign({ _id: user._id }, JWT_SECRET);
             if (user.tokens.length > 4) user.tokens.shift();
             user.tokens.push(token);
@@ -156,16 +157,16 @@ const UserController = {
         }
     },
 
-    // async validateUser(req, res) {
-    //     try {
-    //         const payload = jwt.verify(req.params.token, JWT_SECRET)
-    //         await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
-    //         res.status(201).send(`Te has verificado correctamente`)
-    //     } catch (error) {
-    //         console.log(colors.red.bgWhite(error))
-    //         res.status(404).send(`Enlace roto :(`)
-    //     }
-    // },
+    async validateUser(req, res) {
+        try {
+            const payload = jwt.verify(req.params.token, JWT_SECRET)
+            await User.updateOne({ email: payload.email }, { $set: { confirmed: true } })
+            res.status(201).send(`Te has verificado correctamente`)
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(404).send(`Enlace roto :(`)
+        }
+    },
 
     async logout(req, res) {
         try {
@@ -185,6 +186,13 @@ const UserController = {
             const user = await User.findByIdAndDelete(req.params._id)
             await Post.deleteMany({ userId: req.params._id })
             await Comment.deleteMany({ userId: req.params._id })
+            await transporter.sendMail({
+                to: user.email,
+                subject: "Asunto importante crack",
+                html: `<h2>Hola ${user.username}...</h2>
+                <p>Te informamos que has sido borrado de nuestra super red Anti-social. Para poder volver, puedes irle pidiendo perdón al admin con tiempo. Saludos crack! </p>
+                `
+            })
             res.status(200).send({ message: `Usuario con id ${req.params._id} ha sido borrado`, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
