@@ -65,7 +65,10 @@ const UserController = {
         try {
             const user = await User.findById(req.user._id)
                 .populate({ path: 'postsId' })
-                .populate("followers", "username")
+                .populate( { path: 'following', select: 'username image' })
+                .populate( { path: 'followers', select: 'username image' })
+                .populate( { path: 'favList', select: {title:1, body:1, image:1, userId:1,likes:1}, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } })
+
             res.status(200).send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -74,7 +77,11 @@ const UserController = {
     },
     async getById(req, res) {
         try {
-            const user = await User.findById(req.params._id)
+            const user = await User.findById(req.params._id)  
+            .populate({ path: 'postsId' })
+            .populate( { path: 'following', select: 'username image' })
+            .populate( { path: 'followers', select: 'username image' })
+            .populate( { path: 'favList', select: {title:1, body:1, image:1, userId:1,likes:1}, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } })
             res.status(200).send({ Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length, user })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
@@ -162,10 +169,10 @@ const UserController = {
 
     async logout(req, res) {
         try {
-            await User.findByIdAndUpdate(req.user._id, {
+          const user=  await User.findByIdAndUpdate(req.user._id, {
                 $pull: { tokens: req.headers.authorization },
             });
-            res.status(200).send({ message: 'Desconectado con éxito, vuelve pronto '});
+            res.status(200).send({ message: `Desconectado con éxito, vuelve pronto ${user.username} `});
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({
@@ -200,16 +207,16 @@ const UserController = {
         if (req.params._id != req.user._id) {
             try {
                 const existUser = await User.findById(req.params._id)
-                if (existUser.confirmed === true && !existUser.followers.includes(req.user._id)) {
+                if (!existUser.followers.includes(req.user._id)) {
                     const user = await User.findByIdAndUpdate(
                         req.params._id, { $push: { followers: req.user._id } }, { new: true }
                     );
                     const user2 = await User.findByIdAndUpdate(
                         req.user._id, { $push: { following: req.params._id } }, { new: true }
                     );
-                    res.status(201).send({ message: "El usuario al que ahora sigues ", user, user2 });
+                    res.status(201).send({ message: "Siguiendo usuario!", user, user2 });
                 } else {
-                    res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues o que no está dado de alta aún ò_ó' })
+                    res.status(400).send({ message: 'No puedes seguir a alguien a quién ya sigues ò_ó' })
                 }
             } catch (error) {
                 console.log(colors.red.bgWhite(error))
@@ -223,16 +230,16 @@ const UserController = {
         if (req.user._id != req.params._id) {
             try {
                 const existUser = await User.findById(req.params._id)
-                if (existUser.confirmed === true && existUser.followers.includes(req.user._id)) {
+                if (existUser.followers.includes(req.user._id)) {
                     const user = await User.findByIdAndUpdate(
                         req.params._id, { $pull: { followers: req.user._id } }, { new: true },
                     );
                     const user2 = await User.findByIdAndUpdate(
                         req.user._id, { $pull: { following: req.params._id } }, { new: true }
                     );
-                    res.status(201).send({ message: "El usuario al que ahora ya no sigues ", user, user2 });
+                    res.status(201).send({ message: "Ya no le sigues crack ", user, user2 });
                 } else {
-                    res.status(400).send({ message: 'Ya lo has dejado de seguir o no está de alta!! :(' })
+                    res.status(400).send({ message: 'Ya lo has dejado de seguir antes :(' })
                 }
 
             } catch (error) {
@@ -252,7 +259,10 @@ const UserController = {
                 hashedPassword = await bcrypt.hashSync(password, 10)
             }
             const user = await User.findByIdAndUpdate(req.user._id, { username, image, role: "user", password: hashedPassword }, { new: true }).populate({ path: 'postsId' })
-            .populate("followers", "username")
+            .populate({ path: 'postsId' })
+            .populate( { path: 'following', select: 'username image' })
+            .populate( { path: 'followers', select: 'username image' })
+            .populate( { path: 'favList', select: {title:1, body:1, image:1, userId:1,likes:1}, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } })
             res.status(201).send({ message: `User con id ${req.user._id} modificado con éxito`, user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))

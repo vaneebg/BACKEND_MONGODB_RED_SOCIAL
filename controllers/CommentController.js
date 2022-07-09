@@ -31,7 +31,7 @@ const CommentController = {
             if (req.file) req.body.image = req.file.filename
             const comment = await Comment.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id, postId: req.params._id }, { new: true })
 
-            res.status(201).send({ message: `Comentario con id ${req.params._id} modificado con éxito`, comment });
+            res.status(201).send({ message: `Comentario con título ${comment.title} modificado con éxito`, comment });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(201).send({ message: 'No se pudo actualizar el comentario' })
@@ -50,7 +50,7 @@ const CommentController = {
     async delete(req, res) {
         try {
             const comment = await Comment.findByIdAndDelete(req.params._id)
-            res.status(200).send({ message: `Comentario con id ${req.params._id} ha sido borrado`, comment })
+            res.status(200).send({ message: `Comentario con título ${comment.title} ha sido borrado`, comment })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el comentario' })

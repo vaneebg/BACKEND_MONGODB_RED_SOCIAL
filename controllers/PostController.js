@@ -18,16 +18,19 @@ const PostController = {
             next(error)
         }
     },
+
+  
     async getAll(req, res) {
         try {
-            // const { page = 1, limit = 10 } = req.query;
-            const allPosts = await Post.find({}, { title: 1, body: 1, image: 1 })
+            const { page = 1, limit = 10 } = req.query;
+            const numberPosts = await Post.count()
             const posts = await Post.find({}, { title: 1, body: 1, image: 1, likes:1, createdAt:1})
                 .populate({ path: 'userId', select: 'username email image' })
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image likes' } })
-                // .limit(limit * 1)
-                // .skip((page - 1) * limit);
-            res.status(200).send({ Number_of_posts: allPosts.length, posts });
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .sort({$natural:-1})
+            res.status(200).send({numberPosts, posts });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'No se pudo conseguir todos los posts' })
@@ -71,7 +74,7 @@ const PostController = {
         try {
             if (req.file) req.body.image = req.file.filename
             const post = await Post.findByIdAndUpdate(req.params._id, {...req.body, userId: req.user._id }, { new: true }).populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image likes' } })
-            res.status(201).send({ message: `Post con id ${req.params._id} modificado con éxito`, post });
+            res.status(201).send({ message: `Post con el título ${post.title} modificado con éxito`, post });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'No se pudo modificar el post' })
@@ -125,7 +128,7 @@ const PostController = {
         try {
             const post = await Post.findByIdAndDelete(req.params._id)
             await Comment.deleteMany({ postId: req.params._id })
-            res.status(200).send({ message: `Post con id ${req.params._id} ha sido borrado`, post })
+            res.status(200).send({ message: `Post con título ${post.title} ha sido borrado`, post })
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'Problema para borrar el post' })
