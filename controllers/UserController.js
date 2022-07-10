@@ -271,7 +271,7 @@ const UserController = {
             .populate( { path: 'following', select: 'username image' })
             .populate( { path: 'followers', select: 'username image' })
             .populate( { path: 'favList', select: {title:1, body:1, image:1, userId:1,likes:1}, populate: { path: 'userId', select: { username: 1, image: 1, email: 1 } } })
-            res.status(201).send({ message: `User con id ${req.user._id} modificado con éxito`, user });
+            res.status(201).send({ message: `User  ${user.username} modificado con éxito`,  Followers: user.followers.length, Following: user.following.length, Number_of_posts: user.postsId.length,user });
         } catch (error) {
             console.log(colors.red.bgWhite(error))
             res.status(500).send({ message: 'No se pudo modificar el post' })

@@ -5,7 +5,6 @@ const colors = require('colors/safe');
 
 const CommentController = {
     async create(req, res, next) {
-        console.log('patata')
 
         try {
             if (req.file) req.body.image = req.file.filename

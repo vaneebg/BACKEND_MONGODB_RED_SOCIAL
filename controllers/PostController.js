@@ -25,8 +25,8 @@ const PostController = {
   
     async getAll(req, res) {
         try {
-            const { page = 1, limit = 10 } = req.query;
             const numberPosts = await Post.count()
+            const { page = 1, limit = 10 } = req.query;
             const posts = await Post.find({}, { title: 1, body: 1, image: 1, likes:1, createdAt:1})
                 .populate({ path: 'userId', select: 'username email image' })
                 .populate({ path: 'commentsId', populate: { path: 'userId', select: 'username image likes' } })
