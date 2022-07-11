@@ -22,7 +22,6 @@ const PostController = {
         }
     },
 
-  
     async getAll(req, res) {
         try {
             const numberPosts = await Post.count()
