@@ -14,13 +14,6 @@ dbConnection()
 const cors = require('cors')
 
 app.use(cors())
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-    });
 app.use(express.static('./public'));
 
 app.use('/posts', require('./routes/posts'));
@@ -29,4 +22,11 @@ app.use('/comments', require('./routes/comments'));
 app.use(typeError)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs))
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+    });
 app.listen(PORT, console.log(colors.rainbow(`Server started on port ${PORT}`)));
