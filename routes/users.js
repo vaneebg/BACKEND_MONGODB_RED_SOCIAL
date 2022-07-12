@@ -22,5 +22,7 @@ router.put('/followUser/:_id', authentication, UserController.following)
 router.put('/unfollowUser/:_id', authentication, UserController.unfollow)
 router.delete('/yourUserDelete', authentication, UserController.deleteUser)
 router.put('/modifyUser', authentication, uploadUserAvatar.single('image'), UserController.update)
+router.get('/confirmTesting', UserController.validateUserTest)
+
 
 module.exports = router;

@@ -167,6 +167,15 @@ const UserController = {
             res.status(404).send(`Enlace roto :(`)
         }
     },
+    async validateUserTest(req, res) {
+        try {
+            await User.updateOne({ email: "german@gmail.com" }, { $set: { confirmed: true } })
+            res.status(201).send(`Te has verificado correctamente testing`)
+        } catch (error) {
+            console.log(colors.red.bgWhite(error))
+            res.status(404).send(`Enlace roto :(`)
+        }
+    },
 
     async logout(req, res) {
         try {
